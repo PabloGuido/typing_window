@@ -1,30 +1,54 @@
 import Phaser from 'phaser';
 
-let lista
+let lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
+'conservas', 'función', 'teatro', 'donde']
 let palabra = ""
-let numero_de_letra
+let numero_de_letra = [0,0,0,0]
+let escribiendo_en = []
+
 let textEntry 
 let textEntry_color
 let cambiaColor_sumaLetra
 let palabra_nueva
 
-// var funciones
-let crearLinea
-let crearGrilla
+// palabras a escribir
+let palabras_a_escribir = []
+let crear_cuatro_palabras
 
-// crear selector
-let crear_selector
-let selector
-
-let mover_selector
-let pos_selectorX = 0
-let pos_selectorY = 0
-
-// tabla grilla
-let tabla = []
+// 
+let arriba
+let abajo
+let izquierda
+let derecha
 
 // teclas
 let keyEsc;
+
+//
+let hero
+
+class Hero
+{
+    constructor (esto)
+    {    
+        let x = 400
+        let y = 400
+        this.sprite = esto.add.image(60, 10, 'hero').setScale(3, 3);
+        this.textEntry0 = esto.add.text(-120, 0, "izquierda", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry1 = esto.add.text(0, -120, "arriba", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry2 = esto.add.text(120, 0, "derecha", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry3 = esto.add.text(0, +120, "abajo", {fontSize: '25px', fontStyle: 'bold'})
+        // 
+        this.textEntryC0 = esto.add.text(-120, 0, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC1 = esto.add.text(0, -120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC2 = esto.add.text(120, 0, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC3 = esto.add.text(0, +120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        // 
+        this.tablaEntry = [this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3]
+        this.tablaEntryC = [this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3]
+        this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3 ]);
+    }  
+}
 
 
 class MyGame extends Phaser.Scene
@@ -36,25 +60,22 @@ class MyGame extends Phaser.Scene
 
     preload ()
     {
-
+        this.load.image('hero', 'src/assets/hero.png');
     }
       
     create ()
     {
-        lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
-        'conservas', 'función', 'teatro', 'donde']
-        // palabra = lista[Math.floor(Math.random() * lista.length)]
 
-        numero_de_letra = 0
+        // palabra = lista[Math.floor(Math.random() * lista.length)]
+        
+
 
         // console.log(palabra.charAt(0)
-        // textEntry = this.add.text(200, 40, palabra, {fontSize: '50px'})
+        textEntry = this.add.text(100, 40, "", {fontSize: '25px'})
         // textEntry_color = this.add.text(200, 40, "", {fontSize: '50px', fill: "yellow"})
 
-        crearGrilla(this)
-        console.log(tabla)
-        crear_selector(this)
 
+        hero = new Hero(this)
 
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
@@ -68,13 +89,81 @@ class MyGame extends Phaser.Scene
         // else 
         if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 100))
         {
-            if (numero_de_letra === palabra.length -1 && event.key === palabra.charAt(numero_de_letra)){
-                palabra_nueva();
+            // console.log(palabras_a_escribir[0].charAt(0))
+            for (let i = 0; i < 4; i++){
+                
+                    if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i])){
+                        // escribiendo_en.push(palabras_a_escribir.indexOf(palabras_a_escribir[i]))
+                            
+
+                        // if (numero_de_letra[i] === Math.max.apply(Math, numero_de_letra)){
+                            
+                            hero.tablaEntryC[i].text = hero.tablaEntryC[i].text + palabras_a_escribir[i].charAt(numero_de_letra[i])
+                            numero_de_letra[i] += 1
+
+                            // console.log('test1')
+                            // hero.tablaEntry[i].setTint(0x00ff00)
+                            
+                        // } 
+                    }
+                    if (i === 3){
+                        // console.log('3')
+                        for (let k = 0; k < 4; k++){
+                            if (numero_de_letra[k] < Math.max.apply(Math, numero_de_letra))
+                            {
+                                numero_de_letra[k] = 0
+                                hero.tablaEntry[k].setTint(0xffffff)
+                                hero.tablaEntryC[k].text = ""
+                            }
+                            else if(numero_de_letra[k] >= palabras_a_escribir[k].length){
+                                // console.log(numero_de_letra[k])
+                                // console.log(palabras_a_escribir[k].charAt(numero_de_letra[k]-1))
+                                // textEntry.text = textEntry.text + palabras_a_escribir[k].charAt(numero_de_letra[k])
+                                // console.log(numero_de_letra[k])
+                                // console.log(palabras_a_escribir[k])
+                                textEntry.text = palabras_a_escribir[k]
+                                
+                                // for (let v; v > numero_de_letra.length; v++){
+
+                                //     numero_de_letra[v] = 0
+
+                                // }
+                                hero.tablaEntryC[k].text = ""
+                                numero_de_letra = [0,0,0,0]
+                                palabras_a_escribir = []
+                                hero.tablaEntry[k].setTint(0xffffff)
+                                
+                                console.log(palabras_a_escribir)
+                                crear_cuatro_palabras(hero.tablaEntry)
+                                console.log(numero_de_letra)
+                                console.log(palabras_a_escribir)
+                            }
+
+                        }
+                         // console.log(event.key)
+                         // console.log('test')
+
+                    }
+
+                   
             }
 
-            else if (event.key === palabra.charAt(numero_de_letra)){
-                cambiaColor_sumaLetra();
-            }            
+
+
+            // for (let palabras of palabras_a_escribir){
+            //     if (event.key === palabras.charAt(0)){
+
+            //     // cambiaColor_sumaLetra();
+            //      console.log(event.key)
+
+            //     }          
+            // }
+           
+            // if (numero_de_letra === palabra.length -1 && event.key === palabra.charAt(numero_de_letra)){
+            //     palabra_nueva();
+            // }
+
+
         }
       
         });// keyboar input end ---
@@ -84,7 +173,8 @@ class MyGame extends Phaser.Scene
 
         });
         // ----
-
+        crear_cuatro_palabras(hero.tablaEntry)
+        // console.log(hero.tablaEntry)
         // ----
 
     }
@@ -125,48 +215,19 @@ palabra_nueva = function () {
     return
 }
 
-crearLinea = function (esto, posy, posTabla) {
-    let posX = 150
+crear_cuatro_palabras = function(tabla) {
 
-    for (let i = 0; i<10; i++){
-        let rect = esto.add.rectangle(0, 0, 48, 48, 0x6666ff);
-        let text = esto.add.text(0, 0, '', {fontSize: '42px'})
-        text.letra = ""
-        text.setOrigin(0.5,0.5)
-        let container = esto.add.container(posX, posy, [rect, text]);
-        if (tabla[posTabla] === undefined){
-            tabla[posTabla] = []
-        }
-        tabla[posTabla][i] = container
-        posX = posX + 52
 
+    let palabras = lista.slice(0, lista.length)
+
+    console.log(palabras)
+    for (let i = 0; i<tabla.length; i++){
+        let numero_random = Math.floor(Math.random() * palabras.length);
+        tabla[i].text = palabras[numero_random]
+        let index = palabras.indexOf(palabras[numero_random]);
+        palabras_a_escribir.push(palabras[numero_random])
+
+        palabras.splice(index,1); 
     }
-}
-
-crearGrilla = function(esto) {
-    let posY = 500
-    for (let i = 0; i<8; i++){
-        crearLinea(esto, posY, i)
-        posY = posY-52
-    }
-}
-
-crear_selector = function(esto){
-    let posX = tabla[0][0].x
-    let posY = tabla[0][0].y
-    selector = esto.add.rectangle(posX, posY, 48, 48);
-    selector.setStrokeStyle(4, 0x551155);
-
-}
-
-mover_selector = function (dirX, dirY) {
-    if (puede_mover === true)
-    {
-        if (tabla[pos_selectorX + dirX] != undefined && tabla[pos_selectorX + dirX][pos_selectorY + dirY] != undefined){
-            pos_selectorX = pos_selectorX + dirX
-            pos_selectorY = pos_selectorY + dirY
-            selector.x = tabla[pos_selectorX][pos_selectorY].x
-            selector.y = tabla[pos_selectorX][pos_selectorY].y
-        }
-    }
+    // console.log(palabras_a_escribir)
 }
