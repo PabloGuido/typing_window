@@ -9,7 +9,9 @@ let escribiendo_en = []
 let textEntry 
 let textEntry_color
 let cambiaColor_sumaLetra
+let escribir_letra
 let palabra_nueva
+let borrar_palabra
 
 // palabras a escribir
 let palabras_a_escribir = []
@@ -24,7 +26,10 @@ let derecha
 // teclas
 let keyEsc;
 let keyDel;
+// sonidos
 let click
+let del
+let ok
 //
 let hero
 let mover_hero
@@ -79,11 +84,15 @@ class MyGame extends Phaser.Scene
         this.load.image('hero', 'src/assets/hero.png');
         this.load.image('tiles', 'src/assets/tiles.png');
         this.load.audio('click', 'src/assets/click.ogg');
+        this.load.audio('del', 'src/assets/del.wav');
+        this.load.audio('ok', 'src/assets/ok.ogg');
     }
       
     create ()
     {
         click = this.sound.add('click', {volume: 0.65});
+        del = this.sound.add('del', {volume: 0.65});
+        ok = this.sound.add('ok', {volume: 0.65});
         // Creating a blank tilemap with the specified dimensions
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
         tiles = mapa.addTilesetImage('tiles');
@@ -129,7 +138,7 @@ class MyGame extends Phaser.Scene
                     }
                     if (i === 3){
                         // console.log('3')                        
-                        palabra_nueva();
+                        escribir_letra();
 
                     }
                    
@@ -143,11 +152,13 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
-
+            borrar_palabra();
+            del.play();
         });
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
-
+            borrar_palabra();
+            del.play();
         });
         // ----
         crear_cuatro_palabras(hero.tablaEntry)
@@ -198,7 +209,7 @@ crear_cuatro_palabras = function(tabla) {
     // console.log(palabras_a_escribir)
 }
 
-palabra_nueva = function () {
+escribir_letra = function () {
     for (let k = 0; k < 4; k++){
         if (numero_de_letra[k] < Math.max.apply(Math, numero_de_letra)) // compara la cantidad de letras de la palabra contra la palabra con mayor cantidad escrita
         {
@@ -220,32 +231,37 @@ palabra_nueva = function () {
                 layer.y = layer.y - direcciones[k][0] * 64
                 layer.x = layer.x - direcciones[k][1] * 64
             }
-
-
-
-            let palabras = lista.slice(0, lista.length)
-
-            for (let i = 0; i < 4; i++){
-                let index = palabras.indexOf(palabras_a_escribir[i]);
-                console.log(index)
-                palabras.splice(index,1); 
-                hero.tablaEntryC[k].text = ""
-                hero.tablaEntry[k].setTint(0xffffff)
-            }
-            numero_de_letra = [0,0,0,0] 
-
-            let index2 = palabras_a_escribir.indexOf(palabras_a_escribir[k]);
-            palabras_a_escribir.splice(index2,1);
-            let numero_random = Math.floor(Math.random() * palabras.length);
-
-            palabras_a_escribir.splice(k, 0, palabras[numero_random])
-            hero.tablaEntry[k].text = palabras[numero_random]
-
-
-
-
+            ok.play();
+            palabra_nueva(k);
 
         }
 
+    }
+}
+
+palabra_nueva = function(posK) {
+    let palabras = lista.slice(0, lista.length)
+
+    for (let i = 0; i < 4; i++){  
+        // restablece los valores de palabra a escribir y saca de la tabla palabras las palabras que ya estan dentro de las 4.
+        let index = palabras.indexOf(palabras_a_escribir[i]);
+        // console.log(index)
+        palabras.splice(index,1); 
+        hero.tablaEntryC[i].text = ""
+        numero_de_letra = [0,0,0,0]
+    }
+
+    // Crea nueva palabra y la inserta en la posición de la última donde se escribió.
+    let index2 = palabras_a_escribir.indexOf(palabras_a_escribir[posK]);
+    palabras_a_escribir.splice(index2,1);
+    let numero_random = Math.floor(Math.random() * palabras.length);
+    palabras_a_escribir.splice(posK, 0, palabras[numero_random])
+    hero.tablaEntry[posK].text = palabras[numero_random]
+}
+
+borrar_palabra = function() {
+    for (let i = 0; i < 4; i++){ 
+        hero.tablaEntryC[i].text = ""
+        numero_de_letra = [0,0,0,0]
     }
 }
