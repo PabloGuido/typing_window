@@ -153,12 +153,11 @@ class MyGame extends Phaser.Scene
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
             borrar_palabra();
-            del.play();
+            
         });
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
             borrar_palabra();
-            del.play();
         });
         // ----
         crear_cuatro_palabras(hero.tablaEntry)
@@ -260,8 +259,10 @@ palabra_nueva = function(posK) {
 }
 
 borrar_palabra = function() {
+
     for (let i = 0; i < 4; i++){ 
         hero.tablaEntryC[i].text = ""
         numero_de_letra = [0,0,0,0]
     }
+    del.play();
 }
