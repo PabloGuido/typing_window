@@ -23,6 +23,7 @@ let derecha
 
 // teclas
 let keyEsc;
+let keyDel;
 let click
 //
 let hero
@@ -32,6 +33,8 @@ let inicialX = 6
 let inicialY = 5
 // map
 let mapa
+let tiles
+let layer
 
 class Hero
 {
@@ -83,8 +86,8 @@ class MyGame extends Phaser.Scene
         click = this.sound.add('click', {volume: 0.65});
         // Creating a blank tilemap with the specified dimensions
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
-        let tiles = mapa.addTilesetImage('tiles');
-        let layer = mapa.createBlankLayer('layer1', tiles);
+        tiles = mapa.addTilesetImage('tiles');
+        layer = mapa.createBlankLayer('layer1', tiles);
         layer.fill(0, 5, 2, 3, 5);
         layer.fill(0, 8, 5, 3, 1);
         layer.fill(0, 10, 6, 1, 3);
@@ -92,25 +95,19 @@ class MyGame extends Phaser.Scene
         layer.fill(0, 7, 8, 3, 1);
 
         layer.fill(1, 4, 1, 5, 1);
-        // console.log(layer.layer.data[5][5].index)
+        // console.log(layer.layer.data[5][5].index)       
 
 
-        // palabra = lista[Math.floor(Math.random() * lista.length)]
-        
-
-
-        // console.log(palabra.charAt(0)
         textEntry = this.add.text(20, 20, "", {fontSize: '25px'})
-        // textEntry_color = this.add.text(200, 40, "", {fontSize: '50px', fill: "yellow"})
 
 
         hero = new Hero(this)
         
-        // hero.container.x = 400
+
         hero.container.x = layer.layer.data[inicialY][inicialX].pixelX
         hero.container.y= layer.layer.data[inicialY][inicialX].pixelY
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
+        keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
         // keyboar input ---
         this.input.keyboard.on('keydown', function (event) {
 
@@ -126,85 +123,18 @@ class MyGame extends Phaser.Scene
             for (let i = 0; i < 4; i++){
                 
                     if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i])){
-                        // escribiendo_en.push(palabras_a_escribir.indexOf(palabras_a_escribir[i]))
-                            
-
-                        // if (numero_de_letra[i] === Math.max.apply(Math, numero_de_letra)){
-                            
                             hero.tablaEntryC[i].text = hero.tablaEntryC[i].text + palabras_a_escribir[i].charAt(numero_de_letra[i])
                             numero_de_letra[i] += 1
 
-                            // console.log('test1')
-                            // hero.tablaEntry[i].setTint(0x00ff00)
-                            
-                        // } 
                     }
                     if (i === 3){
-                        // console.log('3')
-                        for (let k = 0; k < 4; k++){
-                            if (numero_de_letra[k] < Math.max.apply(Math, numero_de_letra))
-                            {
-                                numero_de_letra[k] = 0
-                                hero.tablaEntry[k].setTint(0xffffff)
-                                hero.tablaEntryC[k].text = ""
-                            }
-                            else if(numero_de_letra[k] >= palabras_a_escribir[k].length)
-{                                // console.log(numero_de_letra[k])
-                                // console.log(palabras_a_escribir[k].charAt(numero_de_letra[k]-1))
-                                // textEntry.text = textEntry.text + palabras_a_escribir[k].charAt(numero_de_letra[k])
-                                // console.log(numero_de_letra[k])
-                                // console.log(palabras_a_escribir[k])
-                                textEntry.text = palabras_a_escribir[k]
-                                
-                                // for (let v; v > numero_de_letra.length; v++){
-
-                                //     numero_de_letra[v] = 0
-
-                                // }
-                                if (layer.layer.data[inicialY + direcciones[k][0]][inicialX].index === 0 && layer.layer.data[inicialY][inicialX + direcciones[k][1]].index === 0){
-                                    inicialY = inicialY + direcciones[k][0]
-                                    inicialX = inicialX + direcciones[k][1]            
-                                    let y = layer.layer.data[inicialY][inicialX].pixelY
-                                    let x = layer.layer.data[inicialY][inicialX].pixelX
-                                    // hero.mover(y,x)
-                                    // console.log()
-                                    layer.y = layer.y - direcciones[k][0] * 64
-                                    layer.x = layer.x - direcciones[k][1] * 64
-                                }
-                                hero.tablaEntryC[k].text = ""
-                                numero_de_letra = [0,0,0,0]
-                                palabras_a_escribir = []
-                                hero.tablaEntry[k].setTint(0xffffff)
-                                
-                                // console.log(palabras_a_escribir)
-                                crear_cuatro_palabras(hero.tablaEntry)
-                                // console.log(numero_de_letra)
-                                // console.log(palabras_a_escribir)
-                            }
-
-                        }
-                         // console.log(event.key)
-                         // console.log('test')
+                        // console.log('3')                        
+                        palabra_nueva();
 
                     }
-
                    
             }
 
-
-
-            // for (let palabras of palabras_a_escribir){
-            //     if (event.key === palabras.charAt(0)){
-
-            //     // cambiaColor_sumaLetra();
-            //      console.log(event.key)
-
-            //     }          
-            // }
-           
-            // if (numero_de_letra === palabra.length -1 && event.key === palabra.charAt(numero_de_letra)){
-            //     palabra_nueva();
-            // }
 
 
         }
@@ -213,6 +143,10 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
+
+        });
+        keyDel.on('down', function (key, event) {        
+            console.log("Del") 
 
         });
         // ----
@@ -245,18 +179,7 @@ cambiaColor_sumaLetra = function () {
     numero_de_letra += 1
 }
 
-palabra_nueva = function () {
-    palabra = lista[Math.floor(Math.random() * lista.length)]
-    console.log(palabra + " " + palabra.length)
-    for (let i = 0; i < palabra.length; i++){
-        tabla[0][i].list[1].text = palabra.charAt(i)
-        console.log(palabra.charAt(i))
-    }
-    // textEntry.text = palabra
-    // textEntry_color.text = ""
-    numero_de_letra = 0
-    return
-}
+
 
 crear_cuatro_palabras = function(tabla) {
 
@@ -275,3 +198,54 @@ crear_cuatro_palabras = function(tabla) {
     // console.log(palabras_a_escribir)
 }
 
+palabra_nueva = function () {
+    for (let k = 0; k < 4; k++){
+        if (numero_de_letra[k] < Math.max.apply(Math, numero_de_letra)) // compara la cantidad de letras de la palabra contra la palabra con mayor cantidad escrita
+        {
+            numero_de_letra[k] = 0
+            hero.tablaEntry[k].setTint(0xffffff)
+            hero.tablaEntryC[k].text = ""
+        }
+        else if(numero_de_letra[k] >= palabras_a_escribir[k].length )
+        {   
+            textEntry.text = palabras_a_escribir[k]
+
+            if (layer.layer.data[inicialY + direcciones[k][0]][inicialX].index === 0 && layer.layer.data[inicialY][inicialX + direcciones[k][1]].index === 0){
+                inicialY = inicialY + direcciones[k][0]
+                inicialX = inicialX + direcciones[k][1]            
+                let y = layer.layer.data[inicialY][inicialX].pixelY
+                let x = layer.layer.data[inicialY][inicialX].pixelX
+                // hero.mover(y,x)
+                // console.log()
+                layer.y = layer.y - direcciones[k][0] * 64
+                layer.x = layer.x - direcciones[k][1] * 64
+            }
+
+
+
+            let palabras = lista.slice(0, lista.length)
+
+            for (let i = 0; i < 4; i++){
+                let index = palabras.indexOf(palabras_a_escribir[i]);
+                console.log(index)
+                palabras.splice(index,1); 
+                hero.tablaEntryC[k].text = ""
+                hero.tablaEntry[k].setTint(0xffffff)
+            }
+            numero_de_letra = [0,0,0,0] 
+
+            let index2 = palabras_a_escribir.indexOf(palabras_a_escribir[k]);
+            palabras_a_escribir.splice(index2,1);
+            let numero_random = Math.floor(Math.random() * palabras.length);
+
+            palabras_a_escribir.splice(k, 0, palabras[numero_random])
+            hero.tablaEntry[k].text = palabras[numero_random]
+
+
+
+
+
+        }
+
+    }
+}
