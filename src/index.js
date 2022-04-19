@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import Enemigo from './scripts/enemigo'
+
 
 let lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 'conservas', 'recorrer', 'teatro', 'donde']
@@ -40,7 +42,7 @@ let inicialY = 5
 let mapa
 let tiles
 let layer
-
+let eTest 
 class Hero
 {
     constructor (esto)
@@ -81,8 +83,11 @@ class MyGame extends Phaser.Scene
 
     preload ()
     {
+        // img
         this.load.image('hero', 'src/assets/hero.png');
+        this.load.image('enemigo', 'src/assets/enemigo.png');
         this.load.image('tiles', 'src/assets/tiles.png');
+        // sonidos
         this.load.audio('click', 'src/assets/click.ogg');
         this.load.audio('del', 'src/assets/del.wav');
         this.load.audio('ok', 'src/assets/ok.ogg');
@@ -90,6 +95,13 @@ class MyGame extends Phaser.Scene
       
     create ()
     {
+
+
+
+
+
+        // console.log(eTest)
+
         click = this.sound.add('click', {volume: 0.65});
         del = this.sound.add('del', {volume: 0.65});
         ok = this.sound.add('ok', {volume: 0.65});
@@ -109,12 +121,16 @@ class MyGame extends Phaser.Scene
 
         textEntry = this.add.text(20, 20, "", {fontSize: '25px'})
 
+        // enemigo
+        eTest = new Enemigo(this,100,100)
+        this.add.existing(eTest)
+        console.log(eTest.timer)
 
         hero = new Hero(this)
-        
-
         hero.container.x = layer.layer.data[inicialY][inicialX].pixelX
         hero.container.y= layer.layer.data[inicialY][inicialX].pixelY
+
+        eTest.container.setPosition(layer.layer.data[0][10].pixelX,layer.layer.data[7][0].pixelY)
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
         // keyboar input ---
@@ -264,5 +280,5 @@ borrar_palabra = function() {
         hero.tablaEntryC[i].text = ""
         numero_de_letra = [0,0,0,0]
     }
-    del.play();
-}
+    del.play()
+;}
