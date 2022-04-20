@@ -8,7 +8,7 @@ let palabra = ""
 let numero_de_letra = [0,0,0,0]
 let escribiendo_en = []
 
-let textEntry 
+
 let textEntry_color
 let cambiaColor_sumaLetra
 let escribir_letra
@@ -64,12 +64,12 @@ class Hero
         this.tablaEntryC = [this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3]
         this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3 ]);
     }  
-    mover(dirY, dirX) 
+    mover(dirX, dirY) 
     {
         // console.log(this.container)
-        
-        this.container.y = dirY
         this.container.x = dirX
+        this.container.y = dirY
+        
     }
 }
 
@@ -119,8 +119,6 @@ class MyGame extends Phaser.Scene
         // console.log(layer.layer.data[5][5].index)       
 
 
-        textEntry = this.add.text(20, 20, "", {fontSize: '25px'})
-
         // enemigo
         eTest = new Enemigo(this,100,100)
         this.add.existing(eTest)
@@ -129,6 +127,7 @@ class MyGame extends Phaser.Scene
         hero = new Hero(this)
         hero.container.x = layer.layer.data[inicialY][inicialX].pixelX
         hero.container.y= layer.layer.data[inicialY][inicialX].pixelY
+        this.cameras.main.startFollow(hero.container, false, 0.2,0.2);
 
         eTest.container.setPosition(layer.layer.data[0][10].pixelX,layer.layer.data[7][0].pixelY)
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -234,17 +233,16 @@ escribir_letra = function () {
         }
         else if(numero_de_letra[k] >= palabras_a_escribir[k].length )
         {   
-            textEntry.text = palabras_a_escribir[k]
+
 
             if (layer.layer.data[inicialY + direcciones[k][0]][inicialX].index === 0 && layer.layer.data[inicialY][inicialX + direcciones[k][1]].index === 0){
+                // cambia el incialY/X para llevar tracking de los tiles y comprar que hay cuando se quiera mover.
                 inicialY = inicialY + direcciones[k][0]
-                inicialX = inicialX + direcciones[k][1]            
-                let y = layer.layer.data[inicialY][inicialX].pixelY
-                let x = layer.layer.data[inicialY][inicialX].pixelX
-                // hero.mover(y,x)
-                // console.log()
-                layer.y = layer.y - direcciones[k][0] * 64
-                layer.x = layer.x - direcciones[k][1] * 64
+                inicialX = inicialX + direcciones[k][1]  
+                // Mueve al hero.          
+                let x = direcciones[k][1] * 64
+                let y = direcciones[k][0] * 64
+                hero.mover(hero.container.x + x,hero.container.y + y)
             }
             ok.play();
             palabra_nueva(k);
