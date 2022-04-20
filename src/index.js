@@ -104,7 +104,7 @@ class MyGame extends Phaser.Scene
 
         click = this.sound.add('click', {volume: 0.65});
         del = this.sound.add('del', {volume: 0.65});
-        ok = this.sound.add('ok', {volume: 0.65});
+        ok = this.sound.add('ok', {volume: 0.45});
         // Creating a blank tilemap with the specified dimensions
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
         tiles = mapa.addTilesetImage('tiles');
