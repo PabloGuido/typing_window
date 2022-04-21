@@ -19,7 +19,6 @@ export default class Enemigo extends Phaser.GameObjects.Container
         let index = tabla.indexOf(this)
         tabla.splice(index, 1); 
         this.container.destroy()
-
         console.log('muerto')
     }
 

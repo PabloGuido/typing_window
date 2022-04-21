@@ -89,7 +89,7 @@ class Hero
         });
         if (objetivo.vida <= 0){
             objetivo.muerto(npc)
-            console.log(npc)
+            // console.log(npc)
         }
     }
 }
