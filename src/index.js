@@ -8,7 +8,7 @@ let palabra = ""
 let numero_de_letra = [0,0,0,0]
 let escribiendo_en = []
 
-// npc
+// npc, esta tabla contiene los npc
 let npc = []
 
 
@@ -67,7 +67,7 @@ class Hero
         this.tablaEntry = [this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3]
         this.tablaEntryC = [this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3]
         this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3 ]);
-        this.ataque = 1
+        this.fuerza_de_ataque = 1 // fuerza del ataque, cambiar por algo mas cla
         this.esto = esto
     }  
     mover(dirX, dirY) 
@@ -77,9 +77,10 @@ class Hero
         this.container.y = dirY        
     }
     atacar(objetivo, esto2, dirX, dirY){
-        hit.play();
-        objetivo.vida = objetivo.vida - this.ataque
-        console.log(objetivo.nombre + ' vida restante: ' + objetivo.vida)
+        hit.play(); // Sonido del golpe
+
+        objetivo.recibir_danio(this.fuerza_de_ataque, dirX, dirY)
+        
 
         this.esto.tweens.add({
             targets: this.container.list[0],
@@ -87,15 +88,9 @@ class Hero
             y: {value: dirY/2, duration: 60, ease: 'Power0' },
             yoyo: true,
         });
-        this.esto.tweens.add({
-            targets: objetivo.enemy,
-            scaleX: {value: 4, duration: 75, ease: 'Power0' },
-            alphaTopLeft: { value: 0.5, duration: 75, ease: 'Power0' },            
-            yoyo: true,
-        });
+
         if (objetivo.vida <= 0){
-            objetivo.muerto(npc)
-            // console.log(npc)
+            console.log(npc) // está funcionando desde el enemigo, para chequear si los npcs fueron quitados de la tabla por ahora
         }
     }
 }
@@ -132,7 +127,7 @@ class MyGame extends Phaser.Scene
 
         click = this.sound.add('click', {volume: 0.65});
         del = this.sound.add('del', {volume: 0.65});
-        ok = this.sound.add('ok', {volume: 0.45});
+        ok = this.sound.add('ok', {volume: 0.25});
         hit = this.sound.add('hit', {volume: 0.45});
         // Creating a blank tilemap with the specified dimensions
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
@@ -149,17 +144,17 @@ class MyGame extends Phaser.Scene
 
 
         // enemigo
-        eTest = new Enemigo(this,100,100)
+        eTest = new Enemigo(this,100,100,npc)
         this.add.existing(eTest)
         npc.push(eTest)
         eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
 
-        let eTest2 = new Enemigo(this,100,100)
+        let eTest2 = new Enemigo(this,100,100,npc)
         this.add.existing(eTest2)
         npc.push(eTest2)
         eTest2.container.setPosition(layer.layer.data[0][10].pixelX,layer.layer.data[7][0].pixelY)
         
-        let eTest3 = new Enemigo(this,100,100)
+        let eTest3 = new Enemigo(this,100,100,npc)
         this.add.existing(eTest3)
         npc.push(eTest3)
         eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
