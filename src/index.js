@@ -76,14 +76,20 @@ class Hero
         this.container.x = dirX
         this.container.y = dirY        
     }
-    atacar(objetivo, esto2){
+    atacar(objetivo, esto2, dirX, dirY){
         hit.play();
         objetivo.vida = objetivo.vida - this.ataque
         console.log(objetivo.nombre + ' vida restante: ' + objetivo.vida)
+
+        this.esto.tweens.add({
+            targets: this.container.list[0],
+            x: {value: dirX/2, duration: 60, ease: 'Power0' },
+            y: {value: dirY/2, duration: 60, ease: 'Power0' },
+            yoyo: true,
+        });
         this.esto.tweens.add({
             targets: objetivo.enemy,
             scaleX: {value: 4, duration: 75, ease: 'Power0' },
-            // scaleY: {value: 4, duration: 75, ease: 'Power0' },
             alphaTopLeft: { value: 0.5, duration: 75, ease: 'Power0' },            
             yoyo: true,
         });
@@ -279,7 +285,7 @@ escribir_letra = function (esto2) {
                     if (npcs.container.x === hero.container.x + x && npcs.container.y === hero.container.y + y){
                         // compara que el hero no vaya a quedar en la misma posición que ya hay un npc.
                         console.log('Interactuar con npc: ' + npcs.tipo + ' ' + npcs.nombre)
-                        hero.atacar(npcs, esto2)
+                        hero.atacar(npcs, esto2, x, y)
                         // ok.play();
                         palabra_nueva(k);
                         return

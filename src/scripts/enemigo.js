@@ -7,12 +7,13 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.enemy = scene.add.image(0,0,'enemigo').setScale(3, 3)
         this.enemy.x = 30
         this.enemy.y = 30
-        this.text = scene.add.text(0, 0, "", {fontSize: '25px', fontStyle: 'bold'}).setPosition(0,-40)
+        this.timer = 400
+        this.text = scene.add.text(10, 44, this.timer, {fontSize: '18px', fontStyle: 'bold'})
         this.container = scene.add.container(x, y, [this.enemy, this.text ])
         this.tipo = 'enemigo'
         this.nombre = 'Medusa'
         this.vida = 3
-        this.timer = 0
+        
     }
 
     muerto(tabla){
@@ -23,6 +24,13 @@ export default class Enemigo extends Phaser.GameObjects.Container
     }
 
     preUpdate(){
+        if (this.vida > 0){
+            this.timer -= 1
+            this.text.text = this.timer
+            if (this.timer < 0){
+                this.timer = 300
+            }
+        }
         // super.preUpdate()   // ?      
         // this.setPosition()
         // console.log('test enemigo')
