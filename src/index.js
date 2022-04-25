@@ -53,7 +53,7 @@ class Hero
     {    
         let x = 0
         let y = 0
-        this.sprite = esto.add.image(0, 0, 'hero').setScale(3, 3).setOrigin(0,0);
+        this.sprite = esto.add.image(0, 0, 'hero').setScale(3, 3).setOrigin(0,0)
         this.textEntry0 = esto.add.text(-200, 0, "izquierda", {fontSize: '25px', fontStyle: 'bold'})
         this.textEntry1 = esto.add.text(-40, -120, "arriba", {fontSize: '25px', fontStyle: 'bold'})
         this.textEntry2 = esto.add.text(120, 0, "derecha", {fontSize: '25px', fontStyle: 'bold'})
@@ -64,10 +64,11 @@ class Hero
         this.textEntryC2 = esto.add.text(120, 0, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
         this.textEntryC3 = esto.add.text(-40, +120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
         // 
+        this.vida = 10
         this.tablaEntry = [this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3]
         this.tablaEntryC = [this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3]
         this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3 ]);
-        this.fuerza_de_ataque = 1 // fuerza del ataque, cambiar por algo mas cla
+        this.fuerza_de_ataque = 1 // fuerza del ataque, cambiar por algo mas claro
         this.esto = esto
     }  
     mover(dirX, dirY) 
@@ -92,6 +93,10 @@ class Hero
         if (objetivo.vida <= 0){
             console.log(npc) // está funcionando desde el enemigo, para chequear si los npcs fueron quitados de la tabla por ahora
         }
+    }
+    recibir_danio(cantidad)
+    {
+    this.vida = this.vida - cantidad
     }
 }
 
@@ -125,10 +130,10 @@ class MyGame extends Phaser.Scene
 
         // console.log(eTest)
 
-        click = this.sound.add('click', {volume: 0.65});
-        del = this.sound.add('del', {volume: 0.65});
-        ok = this.sound.add('ok', {volume: 0.25});
-        hit = this.sound.add('hit', {volume: 0.45});
+        click = this.sound.add('click', {volume: 0.05});
+        del = this.sound.add('del', {volume: 0.05});
+        ok = this.sound.add('ok', {volume: 0.05});
+        hit = this.sound.add('hit', {volume: 0.05});
         // Creating a blank tilemap with the specified dimensions
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
         tiles = mapa.addTilesetImage('tiles');
@@ -142,28 +147,30 @@ class MyGame extends Phaser.Scene
         layer.fill(1, 4, 1, 5, 1);
         // console.log(layer.layer.data[5][5].index)       
 
-
-        // enemigo
-        eTest = new Enemigo(this,100,100,npc)
-        this.add.existing(eTest)
-        npc.push(eTest)
-        eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
-
-        let eTest2 = new Enemigo(this,100,100,npc)
-        this.add.existing(eTest2)
-        npc.push(eTest2)
-        eTest2.container.setPosition(layer.layer.data[0][10].pixelX,layer.layer.data[7][0].pixelY)
-        
-        let eTest3 = new Enemigo(this,100,100,npc)
-        this.add.existing(eTest3)
-        npc.push(eTest3)
-        eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
-        // console.log(npc)
-
+        // hero
         hero = new Hero(this)
         hero.container.x = layer.layer.data[inicialY][inicialX].pixelX
         hero.container.y= layer.layer.data[inicialY][inicialX].pixelY
         this.cameras.main.startFollow(hero.container, false, 0.2,0.2);
+        hero.container.setDepth(1);
+        // enemigo  
+        eTest = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        this.add.existing(eTest)
+        npc.push(eTest)
+        eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
+        // console.log(eTest)
+
+        let eTest2 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        this.add.existing(eTest2)
+        npc.push(eTest2)
+        eTest2.container.setPosition(layer.layer.data[0][6].pixelX,layer.layer.data[6][0].pixelY)
+        
+        let eTest3 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        this.add.existing(eTest3)
+        npc.push(eTest3)
+        eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
+
+        // console.log(npc)
 
         
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -211,10 +218,11 @@ class MyGame extends Phaser.Scene
             borrar_palabra();
         });
         // ----
+        // Crea las primeras cuatro palabras
         crear_cuatro_palabras(hero.tablaEntry)
         // console.log(hero.tablaEntry)
         // ----
-        console.log(npc)
+
     }
 
     update()
