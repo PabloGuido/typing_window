@@ -17,6 +17,8 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.tipo = 'enemigo'
         this.nombre = 'Medusa'
         this.vida = 3
+        this.fuerza_de_ataque = 1 
+        this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
         this.objetivo_hero = objetivo
         this.mapa = mapa
         this.tabla = tabla
@@ -33,6 +35,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
     recibir_danio(cantidad, dirX, dirY){
         this.vida = this.vida - cantidad
         console.log(this.nombre + ' vida restante: ' + this.vida)
+        this.atacar()
         // Animación de recibir daño. ---------------------------
         this.enemy.setTint(0xff0000)
         this.scene.tweens.add({
@@ -57,22 +60,24 @@ export default class Enemigo extends Phaser.GameObjects.Container
     }
 
     atacar(){
+        // Hay que ver de poner alguna flag para que no se ataque dos veces cuando termina el timer y cuando ataca el hero.
         for (let dirs of direcciones){
             let miPos = this.getLocalPoint(this.container.x,this.container.y)
-            // console.log(miPos)
             miPos.x = miPos.x + dirs[0] * 64
             miPos.y = miPos.y + dirs[1] * 64
-            // console.log(miPos)
+
             let heroPos = this.getLocalPoint(this.objetivo_hero.container.x,this.objetivo_hero.container.y )
+
             if (miPos.x === heroPos.x && miPos.y === heroPos.y){
                 console.log('@' + this.nombre + ' ataca al hero.')
-
-            this.scene.tweens.add({ // Animación que devuelve el golpe al hero
-            targets: this.container.list[0],
-                x: {value: dirs[0] * 32, duration: 60, ease: 'Power0' },
-                y: {value: dirs[1] * 32, duration: 60, ease: 'Power0' },
-                yoyo: true,
-            });
+                this.objetivo_hero.recibir_danio(this.fuerza_de_ataque)                
+                this.sonido_ataque.play();
+                this.scene.tweens.add({ // Animación que devuelve el golpe al hero
+                targets: this.container.list[0],
+                    x: {value: dirs[0] * 32, duration: 60, ease: 'Power0' },
+                    y: {value: dirs[1] * 32, duration: 60, ease: 'Power0' },
+                    yoyo: true,
+                });
 
             }
         }
@@ -112,3 +117,6 @@ export default class Enemigo extends Phaser.GameObjects.Container
         // console.log('test enemigo')
     }
 }
+
+
+

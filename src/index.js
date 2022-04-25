@@ -10,7 +10,8 @@ let escribiendo_en = []
 
 // npc, esta tabla contiene los npc
 let npc = []
-
+// UI
+let UIScene
 
 let textEntry_color
 let cambiaColor_sumaLetra
@@ -65,9 +66,10 @@ class Hero
         this.textEntryC3 = esto.add.text(-40, +120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
         // 
         this.vida = 10
+        this.vidas_text = esto.add.text(-380, -280, "Lives: " + this.vida, {fontSize: '24px',color: '#50ff50', fontStyle: 'bold'})
         this.tablaEntry = [this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3]
         this.tablaEntryC = [this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3]
-        this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3 ]);
+        this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3,this.vidas_text ]);
         this.fuerza_de_ataque = 1 // fuerza del ataque, cambiar por algo mas claro
         this.esto = esto
     }  
@@ -96,7 +98,17 @@ class Hero
     }
     recibir_danio(cantidad)
     {
-    this.vida = this.vida - cantidad
+        this.vida = this.vida - cantidad
+        this.vidas_text.text = "Lives: " + this.vida
+        console.log('@hero recibiendo daño,' + ' vida restante: ' + this.vida)
+        this.sprite.setTint(0xff0000)
+
+        this.esto.tweens.add({
+            targets: this.container.list[0],
+            tint: {value: 0xffffff, duration: 0, ease: 'Power0' },
+            delay: 100,
+        });
+
     }
 }
 
@@ -231,17 +243,8 @@ class MyGame extends Phaser.Scene
 
     }
 }
-const config = {
-    type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 800,
-    height: 600,
-    backgroundColor: '#111111',
-    scene: MyGame
-};
 
 
-const game = new Phaser.Game(config);
 
 cambiaColor_sumaLetra = function () {
     // textEntry_color.text = textEntry_color.text + event.key
@@ -338,3 +341,18 @@ borrar_palabra = function() {
     }
     del.play()
 ;}
+
+
+
+
+const config = {
+    type: Phaser.AUTO,
+    parent: 'phaser-example',
+    width: 800,
+    height: 600,
+    backgroundColor: '#111111',
+    scene: [ MyGame ]
+};
+
+
+const game = new Phaser.Game(config);
