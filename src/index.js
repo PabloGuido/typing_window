@@ -41,7 +41,7 @@ let hit
 let hero
 let mover_hero
 let direcciones = [[0,-1],[-1,0],[0,1],[1,0]]
-let inicialX = 6
+let inicialX = 5
 let inicialY = 5
 // map
 let mapa
@@ -166,21 +166,21 @@ class MyGame extends Phaser.Scene
         this.cameras.main.startFollow(hero.container, false, 0.2,0.2);
         hero.container.setDepth(1);
         // enemigo  
-        eTest = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        eTest = new Enemigo(this,10,5,npc, hero, layer.layer.data)
         this.add.existing(eTest)
         npc.push(eTest)
-        eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
+        // eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
         // console.log(eTest)
 
-        let eTest2 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
-        this.add.existing(eTest2)
-        npc.push(eTest2)
-        eTest2.container.setPosition(layer.layer.data[0][6].pixelX,layer.layer.data[6][0].pixelY)
+        // let eTest2 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        // this.add.existing(eTest2)
+        // npc.push(eTest2)
+        // eTest2.container.setPosition(layer.layer.data[0][6].pixelX,layer.layer.data[6][0].pixelY)
         
-        let eTest3 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
-        this.add.existing(eTest3)
-        npc.push(eTest3)
-        eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
+        // let eTest3 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
+        // this.add.existing(eTest3)
+        // npc.push(eTest3)
+        // eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
 
         // console.log(npc)
 
