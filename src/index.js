@@ -41,8 +41,8 @@ let hit
 let hero
 let mover_hero
 let direcciones = [[0,-1],[-1,0],[0,1],[1,0]]
-let inicialX = 5
-let inicialY = 5
+let inicialX = 7
+let inicialY = 3
 // map
 let mapa
 let tiles
@@ -72,10 +72,12 @@ class Hero
         this.container = esto.add.container(x, y, [ this.sprite, this.textEntry0,this.textEntry1,this.textEntry2,this.textEntry3, this.textEntryC0,this.textEntryC1,this.textEntryC2,this.textEntryC3,this.vidas_text ]);
         this.fuerza_de_ataque = 1 // fuerza del ataque, cambiar por algo mas claro
         this.esto = esto
+
     }  
     mover(dirX, dirY) 
     {
         // console.log(this.container)
+
         this.container.x = dirX
         this.container.y = dirY        
     }
@@ -86,7 +88,7 @@ class Hero
         
 
         this.esto.tweens.add({
-            targets: this.container.list[0],
+            targets: this.sprite,
             x: {value: dirX/2, duration: 60, ease: 'Power0' },
             y: {value: dirY/2, duration: 60, ease: 'Power0' },
             yoyo: true,
@@ -150,13 +152,14 @@ class MyGame extends Phaser.Scene
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
         tiles = mapa.addTilesetImage('tiles');
         layer = mapa.createBlankLayer('layer1', tiles);
-        layer.fill(0, 5, 2, 3, 5);
+        layer.fill(0, 5, 3, 3, 4);
         layer.fill(0, 8, 5, 3, 1);
         layer.fill(0, 10, 6, 1, 3);
         layer.fill(0, 6, 7, 1, 2);
         layer.fill(0, 7, 8, 3, 1);
+        layer.fill(0, 5, 2, 10, 1);
 
-        layer.fill(1, 4, 1, 5, 1);
+        layer.fill(1, 4, 0, 5, 1);
         // console.log(layer.layer.data[5][5].index)       
 
         // hero
@@ -169,13 +172,12 @@ class MyGame extends Phaser.Scene
         eTest = new Enemigo(this,10,5,npc, hero, layer.layer.data)
         this.add.existing(eTest)
         npc.push(eTest)
-        // eTest.container.setPosition(layer.layer.data[0][7].pixelX,layer.layer.data[5][0].pixelY)
         // console.log(eTest)
 
-        // let eTest2 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
-        // this.add.existing(eTest2)
-        // npc.push(eTest2)
-        // eTest2.container.setPosition(layer.layer.data[0][6].pixelX,layer.layer.data[6][0].pixelY)
+        let eTest2 = new Enemigo(this,9,5,npc, hero, layer.layer.data)
+        this.add.existing(eTest2)
+        npc.push(eTest2)
+
         
         // let eTest3 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
         // this.add.existing(eTest3)
@@ -223,6 +225,7 @@ class MyGame extends Phaser.Scene
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
             borrar_palabra();
+
             
         });
         keyDel.on('down', function (key, event) {        
@@ -305,6 +308,7 @@ escribir_letra = function (esto2) {
             hero.mover(hero.container.x + x,hero.container.y + y)
 
             }
+
             ok.play();
             palabra_nueva(k);
 
@@ -348,8 +352,8 @@ borrar_palabra = function() {
 const config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     backgroundColor: '#111111',
     scene: [ MyGame ]
 };
