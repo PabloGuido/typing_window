@@ -8,7 +8,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
     {        
         super(scene); 
         este = this
-        this.enemy = scene.add.image(0,0,'enemigo').setScale(3, 3).setOrigin(0,0)
+        this.enemy = scene.add.image(0,0,'enemigo').setScale(1.8,1.8).setOrigin(0,0)
         this.x = x
         this.y = y
         this.timer = timer

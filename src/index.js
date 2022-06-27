@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
-
+let tile_tamanio = 64
 
 let lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 'conservas', 'recorrer', 'teatro', 'donde']
@@ -41,7 +41,7 @@ let hit
 let hero
 let mover_hero
 let direcciones = [[0,-1],[-1,0],[0,1],[1,0]]
-let inicialX = 7
+let inicialX = 8
 let inicialY = 3
 // map
 let mapa
@@ -54,16 +54,26 @@ class Hero
     {    
         let x = 0
         let y = 0
-        this.sprite = esto.add.image(0, 0, 'hero').setScale(3, 3).setOrigin(0,0)
-        this.textEntry0 = esto.add.text(-200, 0, "izquierda", {fontSize: '25px', fontStyle: 'bold'})
-        this.textEntry1 = esto.add.text(-40, -120, "arriba", {fontSize: '25px', fontStyle: 'bold'})
-        this.textEntry2 = esto.add.text(120, 0, "derecha", {fontSize: '25px', fontStyle: 'bold'})
-        this.textEntry3 = esto.add.text(-40, +120, "abajo", {fontSize: '25px', fontStyle: 'bold'})
+        this.sprite = esto.add.image(0, 3, 'hero').setOrigin(0,0)
+        this.sprite.setScale(1.8,1.8)
+
+        this.textEntry0 = esto.add.text(-120, 50, "izquierda", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry0.setStroke('#000000', 3)
+        this.textEntry1 = esto.add.text(0, -70, "arriba", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry1.setStroke('#000000', 3)
+        this.textEntry2 = esto.add.text(130, 50, "derecha", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry2.setStroke('#000000', 3)
+        this.textEntry3 = esto.add.text(10, 160, "abajo", {fontSize: '25px', fontStyle: 'bold'})
+        this.textEntry3.setStroke('#000000', 3)
         // 
-        this.textEntryC0 = esto.add.text(-200, 0, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
-        this.textEntryC1 = esto.add.text(-40, -120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
-        this.textEntryC2 = esto.add.text(120, 0, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
-        this.textEntryC3 = esto.add.text(-40, +120, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC0 = esto.add.text(-120, 50, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC0.setStroke('#000000', 3)
+        this.textEntryC1 = esto.add.text(0, -70, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC1.setStroke('#000000', 3)
+        this.textEntryC2 = esto.add.text(130, 50, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC2.setStroke('#000000', 3)
+        this.textEntryC3 = esto.add.text(10, 160, "", {fontSize: '25px',color: '#00ff00', fontStyle: 'bold'})
+        this.textEntryC3.setStroke('#000000', 3)
         // 
         this.vida = 10
         this.vidas_text = esto.add.text(-380, -280, "Lives: " + this.vida, {fontSize: '24px',color: '#50ff50', fontStyle: 'bold'})
@@ -152,14 +162,14 @@ class MyGame extends Phaser.Scene
         mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
         tiles = mapa.addTilesetImage('tiles');
         layer = mapa.createBlankLayer('layer1', tiles);
-        layer.fill(0, 5, 3, 3, 4);
-        layer.fill(0, 8, 5, 3, 1);
-        layer.fill(0, 10, 6, 1, 3);
-        layer.fill(0, 6, 7, 1, 2);
-        layer.fill(0, 7, 8, 3, 1);
-        layer.fill(0, 5, 2, 10, 1);
+        layer.fill(0, 5, 0, 8, 8);
+        // layer.fill(0, 8, 5, 3, 1);
+        // layer.fill(0, 10, 6, 1, 3);
+        // layer.fill(0, 6, 7, 1, 2);
+        // layer.fill(0, 7, 8, 3, 1);
+        // layer.fill(0, 5, 2, 10, 1);
 
-        layer.fill(1, 4, 0, 5, 1);
+        // layer.fill(1, 4, 0, 5, 1);
         // console.log(layer.layer.data[5][5].index)       
 
         // hero
@@ -169,12 +179,12 @@ class MyGame extends Phaser.Scene
         this.cameras.main.startFollow(hero.container, false, 0.2,0.2);
         hero.container.setDepth(1);
         // enemigo  
-        eTest = new Enemigo(this,10,5,npc, hero, layer.layer.data)
+        eTest = new Enemigo(this,5,7,npc, hero, layer.layer.data)
         this.add.existing(eTest)
         npc.push(eTest)
         // console.log(eTest)
 
-        let eTest2 = new Enemigo(this,9,5,npc, hero, layer.layer.data)
+        let eTest2 = new Enemigo(this,11,7,npc, hero, layer.layer.data)
         this.add.existing(eTest2)
         npc.push(eTest2)
 
@@ -287,8 +297,8 @@ escribir_letra = function (esto2) {
             // Esta primera compración de abajo chequea que no estemos yendo hacia una pared.
             if (layer.layer.data[inicialY + direcciones[k][0]][inicialX].index === 0 && layer.layer.data[inicialY][inicialX + direcciones[k][1]].index === 0){
                 // Diferencia que se suma la posicion del hero para ver si hay algún NPC o moverse.
-                let x = direcciones[k][1] * 64
-                let y = direcciones[k][0] * 64
+                let x = direcciones[k][1] * tile_tamanio
+                let y = direcciones[k][0] * tile_tamanio
                 for (let npcs of npc){
 
                     if (npcs.container.x === hero.container.x + x && npcs.container.y === hero.container.y + y){
