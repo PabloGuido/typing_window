@@ -1,12 +1,16 @@
 import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
+import Saloon from './scripts/saloonBkg'
 let tile_tamanio = 64
+let midX = 1280/2
+let midY = 720/2
 
 let lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 'conservas', 'recorrer', 'teatro', 'donde']
 let palabra = ""
-let numero_de_letra = [0,0,0,0]
+let numero_de_letra = [0,0,0,0,0]
 let escribiendo_en = []
+let enemigos_en = []
 
 // npc, esta tabla contiene los npc
 let npc = []
@@ -21,7 +25,7 @@ let borrar_palabra
 
 // palabras a escribir
 let palabras_a_escribir = []
-let crear_cuatro_palabras
+let crear_enemigo
 
 // 
 let arriba
@@ -39,6 +43,8 @@ let ok
 let hit
 //
 let hero
+let saloon
+
 let mover_hero
 let direcciones = [[0,-1],[-1,0],[0,1],[1,0]]
 let inicialX = 8
@@ -47,7 +53,7 @@ let inicialY = 3
 let mapa
 let tiles
 let layer
-let eTest 
+let enemigoTest 
 class Hero
 {
     constructor (esto)
@@ -137,7 +143,10 @@ class MyGame extends Phaser.Scene
         // img
         this.load.image('hero', 'src/assets/hero.png');
         this.load.image('enemigo', 'src/assets/enemigo.png');
-        this.load.image('tiles', 'src/assets/tiles.png');
+        this.load.image('saloonBkg', 'src/assets/saloonBkg.png');
+        this.load.image('ventana', 'src/assets/ventana.png');
+        this.load.image('palabra', 'src/assets/palabra.png');
+
         // sonidos
         this.load.audio('click', 'src/assets/click.ogg');
         this.load.audio('del', 'src/assets/del.wav');
@@ -148,58 +157,25 @@ class MyGame extends Phaser.Scene
     create ()
     {
 
-
-
-
-
-        // console.log(eTest)
-
+        // sonidos 
         click = this.sound.add('click', {volume: 0.05});
         del = this.sound.add('del', {volume: 0.05});
         ok = this.sound.add('ok', {volume: 0.05});
         hit = this.sound.add('hit', {volume: 0.05});
-        // Creating a blank tilemap with the specified dimensions
-        mapa = this.make.tilemap({ tileWidth: 64, tileHeight: 64, width: 12, height: 12});
-        tiles = mapa.addTilesetImage('tiles');
-        layer = mapa.createBlankLayer('layer1', tiles);
-        layer.fill(0, 5, 0, 8, 8);
-        // layer.fill(0, 8, 5, 3, 1);
-        // layer.fill(0, 10, 6, 1, 3);
-        // layer.fill(0, 6, 7, 1, 2);
-        // layer.fill(0, 7, 8, 3, 1);
-        // layer.fill(0, 5, 2, 10, 1);
-
-        // layer.fill(1, 4, 0, 5, 1);
-        // console.log(layer.layer.data[5][5].index)       
+        // Saloon
+        saloon = new Saloon(this, midX, midY)
+        // console.log(saloon)
 
         // hero
-        hero = new Hero(this)
-        hero.container.x = layer.layer.data[inicialY][inicialX].pixelX
-        hero.container.y= layer.layer.data[inicialY][inicialX].pixelY
-        this.cameras.main.startFollow(hero.container, false, 0.2,0.2);
-        hero.container.setDepth(1);
-        // enemigo  
-        eTest = new Enemigo(this,5,7,npc, hero, layer.layer.data)
-        this.add.existing(eTest)
-        npc.push(eTest)
-        // console.log(eTest)
+        // hero = new Hero(this)
 
-        let eTest2 = new Enemigo(this,11,7,npc, hero, layer.layer.data)
-        this.add.existing(eTest2)
-        npc.push(eTest2)
+        // enemigo
+        // enemigoTest = new Enemigo(this, 200,200)
+        // this.add.existing(enemigoTest)
 
-        
-        // let eTest3 = new Enemigo(this,100,100,npc, hero, layer.layer.data)
-        // this.add.existing(eTest3)
-        // npc.push(eTest3)
-        // eTest3.container.setPosition(layer.layer.data[0][5].pixelX,layer.layer.data[2][0].pixelY)
-
-        // console.log(npc)
-
-        
+        // keyboar input ---
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
-        // keyboar input ---
         this.input.keyboard.on('keydown', function (event) {
 
         // if (event.keyCode === 8 && textEntry.text.length > 0)
@@ -242,9 +218,11 @@ class MyGame extends Phaser.Scene
             console.log("Del") 
             borrar_palabra();
         });
-        // ----
+        // ---- Start
         // Crea las primeras cuatro palabras
-        crear_cuatro_palabras(hero.tablaEntry)
+        // crear_cuatro_palabras(hero.tablaEntry)
+        crear_enemigo(this)
+
         // console.log(hero.tablaEntry)
         // ----
 
@@ -266,20 +244,29 @@ cambiaColor_sumaLetra = function () {
 
 
 
-crear_cuatro_palabras = function(tabla) {
-
+crear_enemigo = function(este) {
 
     let palabras = lista.slice(0, lista.length)
+    let numero_random = Math.floor(Math.random() * palabras.length);
+    let enemyX = midX + saloon.ventana_0.x
+    let enemyY = midY + saloon.ventana_0.y
+    let nuevo_enemigo = new Enemigo(este, enemyX, enemyY)
+    este.add.existing(nuevo_enemigo)
+    // nuevo_enemigo = new Enemigo(este, saloon.ventana_0.x, 100)
+    console.log(saloon)
+
+
+    
+    // este.add.existing(nuevo_enemigo)
 
     // console.log(palabras)
-    for (let i = 0; i<tabla.length; i++){
-        let numero_random = Math.floor(Math.random() * palabras.length);
-        tabla[i].text = palabras[numero_random]
-        let index = palabras.indexOf(palabras[numero_random]);
-        palabras_a_escribir.push(palabras[numero_random])
-
-        palabras.splice(index,1); 
-    }
+    // for (let i = 0; i<tabla.length; i++){
+    //     let numero_random = Math.floor(Math.random() * palabras.length);
+    //     tabla[i].text = palabras[numero_random]
+    //     let index = palabras.indexOf(palabras[numero_random]);
+    //     palabras_a_escribir.push(palabras[numero_random])
+    //     palabras.splice(index,1); 
+    // }
     // console.log(palabras_a_escribir)
 }
 
@@ -330,13 +317,13 @@ escribir_letra = function (esto2) {
 palabra_nueva = function(posK) {
     let palabras = lista.slice(0, lista.length)
 
-    for (let i = 0; i < 4; i++){  
+    for (let i = 0; i < 5; i++){  
         // restablece los valores de palabra a escribir y saca de la tabla palabras las palabras que ya estan dentro de las 4.
         let index = palabras.indexOf(palabras_a_escribir[i]);
         // console.log(index)
         palabras.splice(index,1); 
         hero.tablaEntryC[i].text = ""
-        numero_de_letra = [0,0,0,0]
+        numero_de_letra = [0,0,0,0,0]
     }
 
     // Crea nueva palabra y la inserta en la posición de la última donde se escribió.
