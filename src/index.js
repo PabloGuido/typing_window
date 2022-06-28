@@ -10,7 +10,7 @@ let lista = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izqu
 let palabra = ""
 let numero_de_letra = [0,0,0,0,0]
 let escribiendo_en = []
-let enemigos_en = []
+let enemigos_en = [0,0,0,0,0]
 
 // npc, esta tabla contiene los npc
 let npc = []
@@ -187,19 +187,19 @@ class MyGame extends Phaser.Scene
         {
             click.play();
             // console.log(palabras_a_escribir[0].charAt(0))
-            for (let i = 0; i < 4; i++){
-                
+            for (let i = 0; i < 5; i++){
+                if (palabras_a_escribir[i] != undefined){
                     if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i])){
-                            hero.tablaEntryC[i].text = hero.tablaEntryC[i].text + palabras_a_escribir[i].charAt(numero_de_letra[i])
+
+                            enemigos_en[i].textColor.text =  enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i])
                             numero_de_letra[i] += 1
 
                     }
                     if (i === 3){
                         // console.log('3')                        
                         escribir_letra(this);
-
                     }
-                   
+                }
             }
 
 
@@ -248,11 +248,14 @@ crear_enemigo = function(este) {
 
     let palabras = lista.slice(0, lista.length)
     let numero_random = Math.floor(Math.random() * palabras.length);
+    let nueva_palabra = palabras[numero_random]
     let enemyX = midX + saloon.ventana_0.x
     let enemyY = midY + saloon.ventana_0.y
-    let nuevo_enemigo = new Enemigo(este, enemyX, enemyY)
+    let nuevo_enemigo = new Enemigo(este, enemyX, enemyY, nueva_palabra, )
+    enemigos_en[saloon.ventana_0.pos] = nuevo_enemigo
     este.add.existing(nuevo_enemigo)
-    // nuevo_enemigo = new Enemigo(este, saloon.ventana_0.x, 100)
+
+    palabras_a_escribir.push(nueva_palabra)
     console.log(saloon)
 
 
@@ -336,9 +339,11 @@ palabra_nueva = function(posK) {
 
 borrar_palabra = function() {
 
-    for (let i = 0; i < 4; i++){ 
-        hero.tablaEntryC[i].text = ""
-        numero_de_letra = [0,0,0,0]
+    for (let i = 0; i < 5; i++){ 
+        if (enemigos_en[i] != 0){
+            enemigos_en[i].textColor.text = ""
+            numero_de_letra = [0,0,0,0,0]
+        }
     }
     del.play()
 ;}

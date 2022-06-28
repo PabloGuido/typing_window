@@ -17,6 +17,7 @@ export default class Saloon extends Phaser.GameObjects.Container
         let vX = 400
         let vY = 150
         este.ventana_0 = scene.add.image(-vX,-vY, 'ventana');
+        este.ventana_0.pos = 0
         este.ventana_1 = scene.add.image(0,-vY, 'ventana');
         este.ventana_2 = scene.add.image(vX,-vY, 'ventana');
         este.ventana_3 = scene.add.image(-vX,vY, 'ventana');
