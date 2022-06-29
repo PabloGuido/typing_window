@@ -9,35 +9,28 @@ export default class Saloon extends Phaser.GameObjects.Container
         //  saloon background 
         this.saloon_fondo = scene.add.image(0, 0, 'saloonBkg');
         this.saloon_container = scene.add.container(x, y, [this.saloon_fondo]);
+        this.tabla_ventanas = []
         this.crear_ventanas(scene)
         
     }
 
     crear_ventanas(scene){
+        // Crea las ventanas en sus respectivas posiciones y las mete en una array.
         let vX = 400
         let vY = 150
-        este.ventana_0 = scene.add.image(-vX,-vY, 'ventana');
-        este.ventana_0.pos = 0
-        este.ventana_1 = scene.add.image(0,-vY, 'ventana');
-        este.ventana_2 = scene.add.image(vX,-vY, 'ventana');
-        este.ventana_3 = scene.add.image(-vX,vY, 'ventana');
-        este.ventana_4 = scene.add.image(vX,vY, 'ventana');
-        este.palabra_box_0 = scene.add.image(-vX,-50, 'palabra');
-        este.palabra_box_1 = scene.add.image(0,-50, 'palabra');
-        este.palabra_box_2 = scene.add.image(vX,-50, 'palabra');
-        este.palabra_box_3 = scene.add.image(-vX,250, 'palabra');
-        este.palabra_box_4 = scene.add.image(vX,250, 'palabra');
+        let posiciones = [[-vX,-vY],[0,-vY],[vX,-vY],[-vX,vY],[vX,vY]]
+        let posiciones_box = [[-vX,-50],[0,-50],[vX,-50],[-vX,250],[vX,250]]
 
-        este.saloon_container.add(este.ventana_0)
-        este.saloon_container.add(este.ventana_1)
-        este.saloon_container.add(este.ventana_2)
-        este.saloon_container.add(este.ventana_3)
-        este.saloon_container.add(este.ventana_4)
-        este.saloon_container.add(este.palabra_box_0)
-        este.saloon_container.add(este.palabra_box_1)
-        este.saloon_container.add(este.palabra_box_2)  
-        este.saloon_container.add(este.palabra_box_3)
-        este.saloon_container.add(este.palabra_box_4)
+        for (let i = 0; i < 5; i++){
+
+            este.ventana = scene.add.image(posiciones[i][0],posiciones[i][1], 'ventana');
+            este.ventana.pos = i
+            este.palabra_box = scene.add.image(posiciones_box[i][0],posiciones_box[i][1], 'palabra');
+            este.saloon_container.add(este.ventana)
+            este.saloon_container.add(este.palabra_box)
+            este.tabla_ventanas.push(este.ventana)
+        }
+
     }
 
 }
