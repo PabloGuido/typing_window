@@ -77,15 +77,21 @@ class MyGame extends Phaser.Scene
 
                         if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i]))
                         {
+
                             // console.log(i)
                             enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                            
                             numero_de_letra[i] += 1;
-                            escribir_letra(this);
+
+                            
+                            
 
                         }
                         if (i === 4)
-                        {
+                        {   
+
+                            console.log('iiii')
+                            escribir_letra(this);
+                            console.log(numero_de_letra)
                             // console.log('max')                        
                             
                         }
@@ -151,7 +157,7 @@ escribir_letra = function (esto2) {
             if (enemigos_en[k] != 0){
 
                 numero_de_letra[k] = 0
-                console.log(numero_de_letra)
+                
                 enemigos_en[k].textColor.setTint(0xffffff)
                 enemigos_en[k].textColor.text = ""
             }

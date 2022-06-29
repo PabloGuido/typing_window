@@ -190,7 +190,7 @@ class MyGame extends Phaser.Scene
 
                     if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i])){
 
-                            enemigos_en[i].textColor.text =  enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i])
+                            enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i])
                             numero_de_letra[i] += 1
 
                  
