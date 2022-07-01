@@ -16,9 +16,9 @@ let ok
 let hit
 
 // palabras
-let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
-'conservas', 'recorrer', 'teatro', 'donde']
-
+// let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
+// 'conservas', 'recorrer', 'teatro', 'donde']
+let lista_de_palabras = ["destino",  "destax", "dia", "dit", "det"]
 // vars
 let saloon
 
@@ -77,11 +77,24 @@ class MyGame extends Phaser.Scene
 
                         if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i]))
                         {
+                            let letraTest = palabras_a_escribir[i].charAt(numero_de_letra[i])
+                            const max = Math.max.apply(Math, numero_de_letra);
+                            const index = numero_de_letra.indexOf(max);
+                            // console.log(index)
 
-                            // console.log(i)
+                            if (Math.max.apply(Math, numero_de_letra) > 0 && palabras_a_escribir[i].charAt(numero_de_letra[i])  === palabras_a_escribir[index].charAt(numero_de_letra[index]-1) ){
+                                console.log('testt222')
+                                enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                numero_de_letra[i] += 1;
+                            }
+                            else if (Math.max.apply(Math, numero_de_letra) === 1 && letraTest != palabras_a_escribir[index].charAt(numero_de_letra[index]-1) && numero_de_letra[i] != numero_de_letra[index] ){
+                                console.log('testt')
+                                return
+                            }
+                            else{
                             enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                             numero_de_letra[i] += 1;
-
+                            }
                             
                             
 
@@ -91,7 +104,7 @@ class MyGame extends Phaser.Scene
 
                             // console.log('iiii')
                             escribir_letra(this);
-                            console.log(numero_de_letra)
+                            // console.log(numero_de_letra)
                             // console.log('max')                        
                             
                         }
