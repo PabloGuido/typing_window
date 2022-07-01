@@ -60,7 +60,7 @@ class MyGame extends Phaser.Scene
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
         // console.log(saloon)
         // sonidos  - pasar a una class después.
-        click = this.sound.add('click', {volume: 0.55});
+        click = this.sound.add('click', {volume: 0.25});
         del = this.sound.add('del', {volume: 0.05});
         ok = this.sound.add('ok', {volume: 0.05});
         hit = this.sound.add('hit', {volume: 0.05});
@@ -89,7 +89,7 @@ class MyGame extends Phaser.Scene
                         if (i === 4)
                         {   
 
-                            console.log('iiii')
+                            // console.log('iiii')
                             escribir_letra(this);
                             console.log(numero_de_letra)
                             // console.log('max')                        
@@ -156,8 +156,7 @@ escribir_letra = function (esto2) {
         {
             if (enemigos_en[k] != 0){
 
-                numero_de_letra[k] = 0
-                
+                numero_de_letra[k] = 0                
                 enemigos_en[k].textColor.setTint(0xffffff)
                 enemigos_en[k].textColor.text = ""
             }
