@@ -16,9 +16,9 @@ let ok
 let hit
 
 // palabras
-// let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
-// 'conservas', 'recorrer', 'teatro', 'donde']
-let lista_de_palabras = ["destino",  "destax", "dia", "dit", "det"]
+let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
+'conservas', 'recorrer', 'teatro', 'donde']
+// let lista_de_palabras = ["destino",  "destax", "dia", "dit", "det"]
 // vars
 let saloon
 
