@@ -24,6 +24,7 @@ let saloon
 
 // tablas
 let enemigos_en = [0,0,0,0,0];
+let posiciones_enemgios = [0,1,2,3,4]
 let numero_de_letra = [0,0,0,0,0];
 let palabras_a_escribir = ["!","!","!","!","!"];
 
@@ -77,36 +78,35 @@ class MyGame extends Phaser.Scene
 
                         if (event.key === palabras_a_escribir[i].charAt(numero_de_letra[i]))
                         {
-                            let letraTest = palabras_a_escribir[i].charAt(numero_de_letra[i])
-                            const max = Math.max.apply(Math, numero_de_letra);
-                            const index = numero_de_letra.indexOf(max);
-                            // console.log(index)
+                            let palabra_actual = palabras_a_escribir[i].charAt(numero_de_letra[i]) // Es la palabra que se está intentando escribir.
+                            const max = Math.max.apply(Math, numero_de_letra); // Busca la/s palabra con más caracteres escritos.
+                            const index = numero_de_letra.indexOf(max); // Busca en que posición se encuentra la palabra con mas caracteres para poder hacer comparaciones luego.
+
 
                             if (Math.max.apply(Math, numero_de_letra) > 0 && palabras_a_escribir[i].charAt(numero_de_letra[i])  === palabras_a_escribir[index].charAt(numero_de_letra[index]-1) ){
-                                console.log('testt222')
+                                // Esto hace la comparación para que se escriban letras cuando las palabras compraten las mismas hasta que no.
+                                // console.log('')
                                 enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                 numero_de_letra[i] += 1;
                             }
-                            else if (Math.max.apply(Math, numero_de_letra) === 1 && letraTest != palabras_a_escribir[index].charAt(numero_de_letra[index]-1) && numero_de_letra[i] != numero_de_letra[index] ){
-                                console.log('testt')
+                            else if (Math.max.apply(Math, numero_de_letra) === 1 && palabra_actual != palabras_a_escribir[index].charAt(numero_de_letra[index]-1) && numero_de_letra[i] != numero_de_letra[index] ){
+                                // Esto arregla el problema que se podía escribir el primer caracter de cada palabra aunque no sean iguales.
+                                // console.log('')
                                 return
                             }
                             else{
-                            enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                            numero_de_letra[i] += 1;
-                            }
-                            
+                                // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
+                                enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                numero_de_letra[i] += 1;
+                            }                           
                             
 
                         }
                         if (i === 4)
                         {   
-
-                            // console.log('iiii')
                             escribir_letra(this);
                             // console.log(numero_de_letra)
-                            // console.log('max')                        
-                            
+                            // console.log('max')                      
                         }
                     
                 }
@@ -116,16 +116,16 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
-            // borrar_palabra();
-
-            
+            // borrar_palabra();            
         });
+
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
             // borrar_palabra();
         });
         // ---- Start
 
+        crear_enemigo(this)
         crear_enemigo(this)
         crear_enemigo(this)
         // ----
@@ -146,19 +146,28 @@ crear_enemigo = function(este) {
     let palabras = lista_de_palabras.slice(0, lista_de_palabras.length)    
     let numero_random = Math.floor(Math.random() * palabras.length);
     let nueva_palabra = palabras[numero_random]
-    // ventana random
-    let ventana_random = Math.floor(Math.random() * 5);
     
+    // ventana random
+    let enemigos_test = []
+    for (let i = 0; i < enemigos_en.length; i++){
+        if (enemigos_en[i] === 0){
+            enemigos_test.push(posiciones_enemgios[i]);
+            // console.log(enemigos_test)
+        }
+    }
+    let ventana_random = Math.floor(Math.random() * enemigos_test.length);
+    let posicion_disponible_random = enemigos_test[ventana_random]
+
     // posición del enemigo en ventana
-    let enemyX = midX + saloon.tabla_ventanas[ventana_random].x
-    let enemyY = midY + saloon.tabla_ventanas[ventana_random].y
+    let enemyX = midX + saloon.tabla_ventanas[posicion_disponible_random].x
+    let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
     // crea el enemigo
     let nuevo_enemigo = new Enemigo(este, enemyX, enemyY, nueva_palabra)
-    enemigos_en[saloon.tabla_ventanas[ventana_random].pos] = nuevo_enemigo
+    enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo
     este.add.existing(nuevo_enemigo)
  
 
-    palabras_a_escribir[ventana_random] = nueva_palabra
+    palabras_a_escribir[posicion_disponible_random] = nueva_palabra
     // console.log(palabras_a_escribir)
 
 }
