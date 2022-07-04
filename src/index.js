@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
 import Saloon from './scripts/saloonBkg'
+import GrupoEnemigos from './scripts/grupoEnemigos'
+
 // vars pantalla
 let midX = 1280/2
 let midY = 720/2
@@ -124,11 +126,10 @@ class MyGame extends Phaser.Scene
             // borrar_palabra();
         });
         // ---- Start
-
-        crear_enemigo(this)
-        crear_enemigo(this)
-        crear_enemigo(this)
+        let grupoTest = new GrupoEnemigos(this)
+        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
         // ----
+
 
     }
 
@@ -141,36 +142,7 @@ class MyGame extends Phaser.Scene
 
 // ------------------------------------------------------------
 
-crear_enemigo = function(este) {
-    // genera la palabra nueva
-    let palabras = lista_de_palabras.slice(0, lista_de_palabras.length)    
-    let numero_random = Math.floor(Math.random() * palabras.length);
-    let nueva_palabra = palabras[numero_random]
-    
-    // ventana random
-    let enemigos_test = []
-    for (let i = 0; i < enemigos_en.length; i++){
-        if (enemigos_en[i] === 0){
-            enemigos_test.push(posiciones_enemgios[i]);
-            // console.log(enemigos_test)
-        }
-    }
-    let ventana_random = Math.floor(Math.random() * enemigos_test.length);
-    let posicion_disponible_random = enemigos_test[ventana_random]
 
-    // posición del enemigo en ventana
-    let enemyX = midX + saloon.tabla_ventanas[posicion_disponible_random].x
-    let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
-    // crea el enemigo
-    let nuevo_enemigo = new Enemigo(este, enemyX, enemyY, nueva_palabra)
-    enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo
-    este.add.existing(nuevo_enemigo)
- 
-
-    palabras_a_escribir[posicion_disponible_random] = nueva_palabra
-    // console.log(palabras_a_escribir)
-
-}
 
 escribir_letra = function (esto2) {
     for (let k = 0; k < 5; k++){
