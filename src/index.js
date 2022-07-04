@@ -34,6 +34,7 @@ let palabras_a_escribir = ["!","!","!","!","!"];
 // vars funciones
 let crear_enemigo
 let escribir_letra
+let borrar_palabra
 
 
 class MyGame extends Phaser.Scene
@@ -64,7 +65,7 @@ class MyGame extends Phaser.Scene
         // console.log(saloon)
         // sonidos  - pasar a una class después.
         click = this.sound.add('click', {volume: 0.25});
-        del = this.sound.add('del', {volume: 0.05});
+        del = this.sound.add('del', {volume: 0.25});
         ok = this.sound.add('ok', {volume: 0.05});
         hit = this.sound.add('hit', {volume: 0.05});
 
@@ -118,12 +119,12 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
-            // borrar_palabra();            
+            borrar_palabra();            
         });
 
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
-            // borrar_palabra();
+            borrar_palabra();
         });
         // ---- Start
         let grupoTest = new GrupoEnemigos(this)
@@ -158,7 +159,7 @@ escribir_letra = function (esto2) {
         }
         else if(numero_de_letra[k] >= palabras_a_escribir[k].length)
         {   
-            console.log('hacer algo?')
+            console.log('* hacer algo *')
 
 
             // ok.play();
@@ -169,6 +170,16 @@ escribir_letra = function (esto2) {
     }
 }
 
+borrar_palabra = function() {
+
+    for (let i = 0; i < 5; i++){ 
+        if (enemigos_en[i] != 0){
+            enemigos_en[i].textColor.text = ""
+            numero_de_letra = [0,0,0,0,0]
+        }
+    }
+    del.play();
+}
 
 const config = {
     type: Phaser.AUTO,
