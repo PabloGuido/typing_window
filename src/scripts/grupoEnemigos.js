@@ -1,7 +1,7 @@
 let este
 import Enemigo from './enemigo'
 let listas = require('./listas');
-let tablas = require('./tablas');
+
 // console.log(tablas.posiciones_enemgios)
 // vars pantalla
 let midX = 1280/2
@@ -52,7 +52,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
 
         // crea el enemigo
-        let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra)
+        let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra, posicion_disponible_random)
         enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo
         scene.add.existing(nuevo_enemigo)   
         // 

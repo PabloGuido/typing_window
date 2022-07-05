@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
 import Saloon from './scripts/saloonBkg'
 import GrupoEnemigos from './scripts/grupoEnemigos'
+let tablas = require('./scripts/tablas');
 
 // vars pantalla
 let midX = 1280/2
@@ -26,10 +27,12 @@ let saloon
 let grupoTest 
 let esta_escena
 // tablas
-let enemigos_en = [0,0,0,0,0];
+tablas
+let enemigos_en = tablas.enemigos_en;
+// let enemigos_en = [0,0,0,0,0];
 let posiciones_enemgios = [0,1,2,3,4]
-export let numero_de_letra = [0,0,0,0,0];
-let palabras_a_escribir = ["!","!","!","!","!"];
+let numero_de_letra = tablas.numero_de_letra;
+let palabras_a_escribir = tablas.palabras_a_escribir;
 
 
 // vars funciones
@@ -137,10 +140,10 @@ class MyGame extends Phaser.Scene
         });
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
-        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, limpiar_tablas)
-        grupoTest.limpiar_tablas = limpiar_tablas
-        // ----
+        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
 
+        // ----
+        
 
     }
 
@@ -181,7 +184,7 @@ escribir_letra = function (esto2) {
     }
 }
 limpiar_tablas = function() {
-    console.log('limpiar_tablas')
+    // console.log('limpiar_tablas')
 }
 borrar_palabra = function() {
 
@@ -195,6 +198,7 @@ borrar_palabra = function() {
 }
 
 palabra_completa = function(posEnArray) {
+    // Acá hay que flaguear las prioridades entre el player y el timer del enemigo.
     // Elimina el enemigo y limpia esa posición en las tablas.
     numero_de_letra = [0,0,0,0,0]
     palabras_a_escribir[posEnArray] = "!"
@@ -205,13 +209,13 @@ palabra_completa = function(posEnArray) {
             enemigos_en[i].textColor.text = ""
         }
     }
-
+    // console.log(tablas.enemigos_en)
     // borrar_palabra();
     ok.play();
     let todosIgualCero = (currentValue) => currentValue === 0;
     if (enemigos_en.every(todosIgualCero)){
         // console.log('todos igual a 0')
-        // grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+
         var timer = esta_escena.time.addEvent({
         delay: 1000,                // ms
         callback: testF,

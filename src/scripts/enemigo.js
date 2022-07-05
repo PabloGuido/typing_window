@@ -1,10 +1,12 @@
+let tablas = require('./tablas');
+// tablas.funcionTest()
 var timer = 300
 
 let este
 export default class Enemigo extends Phaser.GameObjects.Container 
 
 {
-    constructor (scene, x, y, palabra, tabla, objetivo, mapa, funcion_limpia_tablas)
+    constructor (scene, x, y, palabra, pos)
     {        
         super(scene); 
         este = this
@@ -21,22 +23,25 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.vida = 1
         this.fuerza_de_ataque = 1 
         this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
+        this.posicion = pos
 
-        this.tabla = tabla
-        this.limpiar_tablas = funcion_limpia_tablas
-        console.log()
     }
 
     eliminar(){
+
         this.vida = 0;
         this.destroy();
         this.container.destroy();
-        // this.limpiar_tablas
+        this.limpiar_tablas()
+        
         // console.log(este.limpiar_tablas)
     }
 
-    asd(){
-
+    limpiar_tablas(){
+        console.log("limpiar tablas")
+        tablas.numero_de_letra[este.posicion] = 0;
+        tablas.palabras_a_escribir[este.posicion] = "!"
+        tablas.enemigos_en[este.posicion] = 0
     }
 
     atacar(){
@@ -54,7 +59,8 @@ export default class Enemigo extends Phaser.GameObjects.Container
             this.barra.width = ((this.timer * 100)/timer) / 0.5
             // this.text.text = this.timer
             if (this.timer < 0){
-                console.log('Timer out: eliminar enemigo.')
+                this.timer = timer
+                // console.log('Timer out: eliminar enemigo.')
                 this.eliminar()
 
 
