@@ -28,7 +28,7 @@ let esta_escena
 // tablas
 let enemigos_en = [0,0,0,0,0];
 let posiciones_enemgios = [0,1,2,3,4]
-let numero_de_letra = [0,0,0,0,0];
+export let numero_de_letra = [0,0,0,0,0];
 let palabras_a_escribir = ["!","!","!","!","!"];
 
 
@@ -37,6 +37,7 @@ let crear_enemigo
 let escribir_letra
 let borrar_palabra
 let palabra_completa
+let limpiar_tablas
 
 class MyGame extends Phaser.Scene
 {
@@ -136,7 +137,8 @@ class MyGame extends Phaser.Scene
         });
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
-        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, limpiar_tablas)
+        grupoTest.limpiar_tablas = limpiar_tablas
         // ----
 
 
@@ -178,7 +180,9 @@ escribir_letra = function (esto2) {
 
     }
 }
-
+limpiar_tablas = function() {
+    console.log('limpiar_tablas')
+}
 borrar_palabra = function() {
 
     for (let i = 0; i < 5; i++){ 

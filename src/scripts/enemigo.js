@@ -4,7 +4,7 @@ let este
 export default class Enemigo extends Phaser.GameObjects.Container 
 
 {
-    constructor (scene, x, y, palabra, tabla, objetivo, mapa)
+    constructor (scene, x, y, palabra, tabla, objetivo, mapa, funcion_limpia_tablas)
     {        
         super(scene); 
         este = this
@@ -23,18 +23,19 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
 
         this.tabla = tabla
-
-
+        this.limpiar_tablas = funcion_limpia_tablas
+        console.log()
     }
 
     eliminar(){
         this.vida = 0;
         this.destroy();
         this.container.destroy();
-
+        // this.limpiar_tablas
+        // console.log(este.limpiar_tablas)
     }
 
-    recibir_danio(){
+    asd(){
 
     }
 
@@ -53,7 +54,9 @@ export default class Enemigo extends Phaser.GameObjects.Container
             this.barra.width = ((this.timer * 100)/timer) / 0.5
             // this.text.text = this.timer
             if (this.timer < 0){
-                this.timer = timer
+                console.log('Timer out: eliminar enemigo.')
+                this.eliminar()
+
 
             }
         }
