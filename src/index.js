@@ -170,7 +170,7 @@ escribir_letra = function (esto2) {
         }
         else if(numero_de_letra[k] === palabras_a_escribir[k].length)
         {   
-            console.log('* palabra completa *')
+            // console.log('* palabra completa *')
             // console.log(enemigos_en[k])
             palabra_completa(k)
 
@@ -206,7 +206,7 @@ palabra_completa = function(posEnArray) {
     ok.play();
     let todosIgualCero = (currentValue) => currentValue === 0;
     if (enemigos_en.every(todosIgualCero)){
-        console.log('todos igual a 0')
+        // console.log('todos igual a 0')
         // grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
         var timer = esta_escena.time.addEvent({
         delay: 1000,                // ms
