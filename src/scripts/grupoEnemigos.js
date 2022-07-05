@@ -1,6 +1,7 @@
 let este
 import Enemigo from './enemigo'
 let listas = require('./listas');
+
 // vars pantalla
 let midX = 1280/2
 let midY = 720/2
@@ -11,12 +12,14 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
     {   
         super(scene); 
         este = this
+        this.palabras = listas.palabras.slice(0, listas.palabras.length) 
         // console.log(listas.palabras)
 
         
     }
 
     crear_grupo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir){
+        this.palabras = listas.palabras.slice(0, listas.palabras.length) 
         let numero_random = Math.floor(Math.random() * 5 + 1);
         for (let i = 0; i < numero_random; i++) {
             // console.log(i)
@@ -27,9 +30,8 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
 
     crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir){
         // genera la palabra nueva
-        let palabras = listas.palabras.slice(0, listas.palabras.length)    
-        let numero_random = Math.floor(Math.random() * palabras.length);
-        let nueva_palabra = palabras[numero_random]
+        let numero_random = Math.floor(Math.random() * this.palabras .length);
+        let nueva_palabra = this.palabras [numero_random]
         // console.log(nueva_palabra)
 
         // ventana random
@@ -44,16 +46,22 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let posicion_disponible_random = enemigos_test[ventana_random]
         // console.log(posicion_disponible_random)
 
-        // // posición del enemigo en ventana
+        // posición del enemigo en ventana
         let enemyX = midX + saloon.tabla_ventanas[posicion_disponible_random].x
         let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
 
-        // // crea el enemigo
+        // crea el enemigo
         let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra)
         enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo
-        scene.add.existing(nuevo_enemigo)     
-
+        scene.add.existing(nuevo_enemigo)   
+        // 
         palabras_a_escribir[posicion_disponible_random] = nueva_palabra
+        // quita la palabra de la copia de la tabla para que no se repitan las palabras
+        
+        let index_nueva_palabra = this.palabras.indexOf(nueva_palabra); 
+        this.palabras.splice(index_nueva_palabra,1);
+        // console.log(this.palabras)
+
     }
 
 }
