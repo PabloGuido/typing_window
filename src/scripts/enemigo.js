@@ -27,7 +27,10 @@ export default class Enemigo extends Phaser.GameObjects.Container
 
     }
 
-    muerto(){
+    eliminar(){
+        this.vida = 0;
+        this.destroy();
+        this.container.destroy();
 
     }
 

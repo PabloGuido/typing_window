@@ -23,7 +23,8 @@ let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "de
 // let lista_de_palabras = ["destino",  "destax", "dia", "dit", "det"]
 // vars
 let saloon
-
+let grupoTest 
+let esta_escena
 // tablas
 let enemigos_en = [0,0,0,0,0];
 let posiciones_enemgios = [0,1,2,3,4]
@@ -35,7 +36,7 @@ let palabras_a_escribir = ["!","!","!","!","!"];
 let crear_enemigo
 let escribir_letra
 let borrar_palabra
-
+let palabra_completa
 
 class MyGame extends Phaser.Scene
 {
@@ -61,13 +62,14 @@ class MyGame extends Phaser.Scene
       
     create ()
     {
+        esta_escena = this
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
         // console.log(saloon)
         // sonidos  - pasar a una class después.
         click = this.sound.add('click', {volume: 0.25});
         del = this.sound.add('del', {volume: 0.25});
-        ok = this.sound.add('ok', {volume: 0.05});
-        hit = this.sound.add('hit', {volume: 0.05});
+        ok = this.sound.add('ok', {volume: 0.25});
+        hit = this.sound.add('hit', {volume: 0.25});
 
         // keyboard input
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -91,16 +93,19 @@ class MyGame extends Phaser.Scene
                                 // console.log('')
                                 enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                 numero_de_letra[i] += 1;
+                                // console.log('numero_de_letra[i] += 1 ~ en comparación 1')
                             }
                             else if (Math.max.apply(Math, numero_de_letra) === 1 && palabra_actual != palabras_a_escribir[index].charAt(numero_de_letra[index]-1) && numero_de_letra[i] != numero_de_letra[index] ){
+                            // else if (Math.max.apply(Math, numero_de_letra) === 1 && palabra_actual != palabras_a_escribir[index].charAt(0) && numero_de_letra[i] != numero_de_letra[index] ){ // dejar esta por si las dudas por si las de arriba no está ok, pero debería.
                                 // Esto arregla el problema que se podía escribir el primer caracter de cada palabra aunque no sean iguales.
-                                // console.log('')
-                                return
+                                // console.log('Salteando')
+                                continue 
                             }
                             else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
                                 enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                 numero_de_letra[i] += 1;
+                                // console.log('numero_de_letra[i] += 1 ~ en comparación 3')
                             }                           
                             
 
@@ -119,15 +124,18 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
-            borrar_palabra();            
+            // borrar_palabra();
+            console.log(numero_de_letra)
+            del.play();
         });
 
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
             borrar_palabra();
+            del.play();
         });
         // ---- Start
-        let grupoTest = new GrupoEnemigos(this)
+        grupoTest = new GrupoEnemigos(this)
         grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
         // ----
 
@@ -143,7 +151,10 @@ class MyGame extends Phaser.Scene
 
 // ------------------------------------------------------------
 
-
+let testF = function() {
+    grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+    hit.play();
+}
 
 escribir_letra = function (esto2) {
     for (let k = 0; k < 5; k++){
@@ -157,13 +168,11 @@ escribir_letra = function (esto2) {
             }
 
         }
-        else if(numero_de_letra[k] >= palabras_a_escribir[k].length)
+        else if(numero_de_letra[k] === palabras_a_escribir[k].length)
         {   
-            console.log('* hacer algo *')
-
-
-            // ok.play();
-            // palabra_nueva(k);
+            console.log('* palabra completa *')
+            // console.log(enemigos_en[k])
+            palabra_completa(k)
 
         }
 
@@ -178,7 +187,32 @@ borrar_palabra = function() {
             numero_de_letra = [0,0,0,0,0]
         }
     }
-    del.play();
+    
+}
+
+palabra_completa = function(posEnArray) {
+    // Elimina el enemigo y limpia esa posición en las tablas.
+    numero_de_letra = [0,0,0,0,0]
+    palabras_a_escribir[posEnArray] = "!"
+    enemigos_en[posEnArray].eliminar();
+    enemigos_en[posEnArray] = 0
+    for (let i = 0; i < 5; i++){ 
+        if (enemigos_en[i] != 0){
+            enemigos_en[i].textColor.text = ""
+        }
+    }
+
+    // borrar_palabra();
+    ok.play();
+    let todosIgualCero = (currentValue) => currentValue === 0;
+    if (enemigos_en.every(todosIgualCero)){
+        console.log('todos igual a 0')
+        // grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+        var timer = esta_escena.time.addEvent({
+        delay: 1000,                // ms
+        callback: testF,
+        });
+    }
 }
 
 const config = {
