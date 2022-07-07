@@ -130,6 +130,7 @@ class MyGame extends Phaser.Scene
             console.log("Esc") 
             // borrar_palabra();
             console.log(numero_de_letra)
+
             del.play();
         });
 
@@ -191,7 +192,8 @@ borrar_palabra = function() {
     for (let i = 0; i < 5; i++){ 
         if (enemigos_en[i] != 0){
             enemigos_en[i].textColor.text = ""
-            numero_de_letra = [0,0,0,0,0]
+            tablas.numero_de_letra[i] = 0;
+            numero_de_letra = tablas.numero_de_letra;
         }
     }
     
@@ -200,6 +202,7 @@ borrar_palabra = function() {
 palabra_completa = function(posEnArray) {
     // Acá hay que flaguear las prioridades entre el player y el timer del enemigo.
     // Elimina el enemigo y limpia esa posición en las tablas.
+    // Poner bien que estos valores se modifiquen en tablas.js
     numero_de_letra = [0,0,0,0,0]
     palabras_a_escribir[posEnArray] = "!"
     enemigos_en[posEnArray].eliminar();
@@ -212,15 +215,16 @@ palabra_completa = function(posEnArray) {
     // console.log(tablas.enemigos_en)
     // borrar_palabra();
     ok.play();
-    let todosIgualCero = (currentValue) => currentValue === 0;
-    if (enemigos_en.every(todosIgualCero)){
-        // console.log('todos igual a 0')
+    tablas.todosIgualCero(esta_escena, testF)
+    // let todosIgualCero = (currentValue) => currentValue === 0;
+    // if (enemigos_en.every(todosIgualCero)){
+    //     // console.log('todos igual a 0')
 
-        var timer = esta_escena.time.addEvent({
-        delay: 1000,                // ms
-        callback: testF,
-        });
-    }
+    //     var timer = esta_escena.time.addEvent({
+    //     delay: 1000,                // ms
+    //     callback: testF,
+    //     });
+    // }
 }
 
 const config = {
