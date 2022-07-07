@@ -159,6 +159,7 @@ class MyGame extends Phaser.Scene
 export let testF
 export let timerTestF
 testF = function() {
+    
     grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
     hit.play();
 }
@@ -167,7 +168,11 @@ timerTestF = function() {
     let todosIgualCero = (currentValue) => currentValue === 0;
     if (enemigos_en.every(todosIgualCero)){
         console.log('todos igual a 0, crear nuevos enemigos.')
-
+        tablas.limpiar_tablas(0)
+        tablas.limpiar_tablas(1)
+        tablas.limpiar_tablas(2)
+        tablas.limpiar_tablas(3)
+        tablas.limpiar_tablas(4)
         var timer = esta_escena.time.addEvent({
         delay: 1000,                // ms
         callback: testF,
@@ -191,7 +196,6 @@ escribir_letra = function (esto2) {
         else if(numero_de_letra[k] === palabras_a_escribir[k].length)
         {   
             // console.log('* palabra completa *')
-            // console.log(enemigos_en[k])
             palabra_completa(k)
 
         }
@@ -202,7 +206,7 @@ limpiar_tablas = function() {
     // console.log('limpiar_tablas')
 }
 borrar_palabra = function() {
-
+    console.log("borrar palabra?")
     for (let i = 0; i < 5; i++){ 
         if (enemigos_en[i] != 0){
             enemigos_en[i].textColor.text = ""
@@ -227,18 +231,9 @@ palabra_completa = function(posEnArray) {
         }
     }
     // console.log(tablas.enemigos_en)
-    // borrar_palabra();
-    ok.play();
-    
-    // let todosIgualCero = (currentValue) => currentValue === 0;
-    // if (enemigos_en.every(todosIgualCero)){
-    //     // console.log('todos igual a 0')
 
-    //     var timer = esta_escena.time.addEvent({
-    //     delay: 1000,                // ms
-    //     callback: testF,
-    //     });
-    // }
+    ok.play();
+
 }
 
 const config = {
