@@ -156,10 +156,24 @@ class MyGame extends Phaser.Scene
 }
 
 // ------------------------------------------------------------
-
-let testF = function() {
+export let testF
+export let timerTestF
+testF = function() {
     grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
     hit.play();
+}
+
+timerTestF = function() {
+    let todosIgualCero = (currentValue) => currentValue === 0;
+    if (enemigos_en.every(todosIgualCero)){
+        console.log('todos igual a 0, crear nuevos enemigos.')
+
+        var timer = esta_escena.time.addEvent({
+        delay: 1000,                // ms
+        callback: testF,
+        });
+    }
+
 }
 
 escribir_letra = function (esto2) {
@@ -215,7 +229,7 @@ palabra_completa = function(posEnArray) {
     // console.log(tablas.enemigos_en)
     // borrar_palabra();
     ok.play();
-    tablas.todosIgualCero(esta_escena, testF)
+    
     // let todosIgualCero = (currentValue) => currentValue === 0;
     // if (enemigos_en.every(todosIgualCero)){
     //     // console.log('todos igual a 0')

@@ -13,14 +13,4 @@ limpiar_tablas = function(pos) {
 
 }
 
-todosIgualCero = function(escena, fnc) {
-let comparacion = (currentValue) => currentValue === 0;
-    if (enemigos_en.every(comparacion)){
-        // console.log('todos igual a 0')
 
-        var timer = escena.time.addEvent({
-        delay: 1000,                // ms
-        callback: fnc,
-        });
-}	
-}

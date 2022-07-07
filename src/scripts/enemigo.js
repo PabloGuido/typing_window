@@ -1,6 +1,9 @@
 let tablas = require('./tablas');
+let index = require('../index');
+
 // console.log(tablas.limpiar_tablas)
 var timer = 300
+var resta = 1
 
 export default class Enemigo extends Phaser.GameObjects.Container 
 
@@ -22,8 +25,6 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.fuerza_de_ataque = 1 
         this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
         this.posicion = pos
-        this.fnc_igual_cero = tablas.todosIgualCero(scene, fnc_igual_cero)
-        console.log(tablas.todosIgualCero)
     }
 
     eliminar(){
@@ -33,7 +34,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.vida = 0;
         this.destroy();
         this.container.destroy();
-        
+        index.timerTestF()
     }
 
     limpiar_tablas(){
@@ -52,7 +53,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
     preUpdate(){
         // console.log('hola')
         if (this.vida > 0){
-            this.timer -= 1
+            this.timer -= resta
             this.barra.width = ((this.timer * 100)/timer) / 0.5
             // this.text.text = this.timer
             if (this.timer < 0){
