@@ -111,8 +111,7 @@ class MyGame extends Phaser.Scene
                             
 
                         }
-                        if (i === 4)
-                        {   
+                        if (i === 4){   
                             escribir_letra(this);
                             // console.log(numero_de_letra)
                             // console.log('max')                      
@@ -124,15 +123,12 @@ class MyGame extends Phaser.Scene
         });// keyboar input end ---
         
         keyEsc.on('down', function (key, event) {        
-            console.log("Esc") 
-
+            // console.log("Esc") 
             console.log(numero_de_letra)
-
-            del.play();
         });
 
         keyDel.on('down', function (key, event) {        
-            console.log("Del") 
+            // console.log("Del") 
             limpiar_tablas();
             del.play();
         });
@@ -155,8 +151,6 @@ class MyGame extends Phaser.Scene
 // ------------------------------------------------------------
 
 
-let limpa_palabras_actualiza = function() {}
-
 creacion_de_grupo_enemigo = function() {
     grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
     hit.play();
@@ -167,7 +161,7 @@ timer_creacion_de_grupo_enemigo = function() {
     // Si el total de enemgios es 0 restablece las tablas.
     let todosIgualCero = (currentValue) => currentValue === 0;
     if (enemigos_en.every(todosIgualCero)){
-        console.log('todos igual a 0, crear nuevos enemigos.')
+        // console.log('todos igual a 0, crear nuevos enemigos.')
 
         limpiar_tablas();
 
@@ -213,23 +207,17 @@ limpiar_tablas = function(es_una_palabra_completa) {
 }
 
 palabra_completa = function(posEnArray) {
-    // Acá hay que flaguear las prioridades entre el player y el timer del enemigo.
+    // Acá hay que flaguear las prioridades entre el player y el timer del enemigo. Por ahora parece que está bien igual.
     // Elimina el enemigo y limpia esa posición en las tablas.
-    // Poner bien que estos valores se modifiquen en tablas.js
     limpiar_tablas()
 
     palabras_a_escribir[posEnArray] = "!"
     enemigos_en[posEnArray].eliminar();
     enemigos_en[posEnArray] = 0
-    for (let i = 0; i < 5; i++){ 
-        if (enemigos_en[i] != 0){
-            enemigos_en[i].textColor.text = ""
-        }
-    }
+
     // console.log(tablas.enemigos_en)
 
     ok.play();
-
 }
 
 const config = {
