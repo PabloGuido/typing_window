@@ -18,19 +18,15 @@ let del
 let ok
 let hit
 
-// palabras
-let lista_de_palabras = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
-'conservas', 'recorrer', 'teatro', 'donde']
-// let lista_de_palabras = ["destino",  "destax", "dia", "dit", "det"]
 // vars
 let saloon
 let grupoTest 
 let esta_escena
+
 // tablas
-tablas
+
 let enemigos_en = tablas.enemigos_en;
-// let enemigos_en = [0,0,0,0,0];
-let posiciones_enemgios = [0,1,2,3,4]
+let posiciones_enemgios = tablas.posiciones_enemgios
 let numero_de_letra = tablas.numero_de_letra;
 let palabras_a_escribir = tablas.palabras_a_escribir;
 
@@ -38,9 +34,10 @@ let palabras_a_escribir = tablas.palabras_a_escribir;
 // vars funciones
 let crear_enemigo
 let escribir_letra
-let borrar_palabra
 let palabra_completa
 let limpiar_tablas
+export let creacion_de_grupo_enemigo
+export let timer_creacion_de_grupo_enemigo
 
 class MyGame extends Phaser.Scene
 {
@@ -128,7 +125,7 @@ class MyGame extends Phaser.Scene
         
         keyEsc.on('down', function (key, event) {        
             console.log("Esc") 
-            // borrar_palabra();
+
             console.log(numero_de_letra)
 
             del.play();
@@ -136,7 +133,7 @@ class MyGame extends Phaser.Scene
 
         keyDel.on('down', function (key, event) {        
             console.log("Del") 
-            borrar_palabra();
+            limpiar_tablas();
             del.play();
         });
         // ---- Start
@@ -156,36 +153,27 @@ class MyGame extends Phaser.Scene
 }
 
 // ------------------------------------------------------------
-export let testF
-export let timerTestF
+
 
 let limpa_palabras_actualiza = function() {}
 
-testF = function() {
-    
+creacion_de_grupo_enemigo = function() {
     grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
     hit.play();
 }
 
-timerTestF = function() {
+timer_creacion_de_grupo_enemigo = function() {
+    // Cada vez que un enemigo se elimina se fija cuantos quedan. Si son 0 crea el timer para la creación de un nuevo grupo de enemigos.
+    // Si el total de enemgios es 0 restablece las tablas.
     let todosIgualCero = (currentValue) => currentValue === 0;
     if (enemigos_en.every(todosIgualCero)){
         console.log('todos igual a 0, crear nuevos enemigos.')
 
-
-        for (let i = 0; i < 5; i++){ 
-            if (enemigos_en[i] != 0){
-                enemigos_en[i].textColor.text = ""
-                tablas.numero_de_letra[i] = 0;
-                
-            }
-            numero_de_letra = tablas.numero_de_letra;
-        }
-
+        limpiar_tablas();
 
         var timer = esta_escena.time.addEvent({
         delay: 1000,                // ms
-        callback: testF,
+        callback: creacion_de_grupo_enemigo,
         });
     }
 
@@ -212,26 +200,24 @@ escribir_letra = function (esto2) {
 
     }
 }
-limpiar_tablas = function() {
-    // console.log('limpiar_tablas')
-}
-borrar_palabra = function() {
-    console.log("borrar palabra?")
-    for (let i = 0; i < 5; i++){ 
-        if (enemigos_en[i] != 0){
-            enemigos_en[i].textColor.text = ""
-            tablas.numero_de_letra[i] = 0;
-            numero_de_letra = tablas.numero_de_letra;
+limpiar_tablas = function(es_una_palabra_completa) {
+        for (let i = 0; i < 5; i++){ 
+            if (enemigos_en[i] != 0){
+                enemigos_en[i].textColor.text = "";
+                tablas.numero_de_letra[i] = 0;
+                
+            }
+            
         }
-    }
-    
+        numero_de_letra = tablas.numero_de_letra;
 }
 
 palabra_completa = function(posEnArray) {
     // Acá hay que flaguear las prioridades entre el player y el timer del enemigo.
     // Elimina el enemigo y limpia esa posición en las tablas.
     // Poner bien que estos valores se modifiquen en tablas.js
-    numero_de_letra = [0,0,0,0,0]
+    limpiar_tablas()
+
     palabras_a_escribir[posEnArray] = "!"
     enemigos_en[posEnArray].eliminar();
     enemigos_en[posEnArray] = 0

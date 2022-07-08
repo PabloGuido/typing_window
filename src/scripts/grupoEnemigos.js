@@ -2,7 +2,6 @@ let este
 import Enemigo from './enemigo'
 let listas = require('./listas');
 
-// console.log(tablas.posiciones_enemgios)
 // vars pantalla
 let midX = 1280/2
 let midY = 720/2

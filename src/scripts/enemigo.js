@@ -1,7 +1,7 @@
 let tablas = require('./tablas');
 let index = require('../index');
 
-// console.log(tablas.limpiar_tablas)
+// console.log(tablas.restablecer_tablas)
 var timer = 300
 var resta = 1
 
@@ -29,15 +29,15 @@ export default class Enemigo extends Phaser.GameObjects.Container
 
     eliminar(){
         // console.log("limpiar tablas")
-        tablas.limpiar_tablas(this.posicion)
+        tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
         this.vida = 0;
         this.destroy();
         this.container.destroy();
-        index.timerTestF()
+        index.timer_creacion_de_grupo_enemigo()
     }
 
-    limpiar_tablas(){
+    restablecer_tablas(){
 
 
     }
