@@ -1,4 +1,5 @@
 let este
+
 export default class Saloon extends Phaser.GameObjects.Container 
 
 {
@@ -17,17 +18,17 @@ export default class Saloon extends Phaser.GameObjects.Container
     crear_ventanas(scene){
         // Crea las ventanas en sus respectivas posiciones y las mete en una array.
         let vX = 400
-        let vY = 150
-        let posiciones = [[-vX,-vY],[0,-vY],[vX,-vY],[-vX,vY],[vX,vY]]
+        let vY = 170
+        let posiciones = [[-vX,-vY],[0,-vY],[vX,-vY],[-vX,vY-40],[vX,vY-40]]
         let posiciones_box = [[-vX,-50],[0,-50],[vX,-50],[-vX,250],[vX,250]]
 
         for (let i = 0; i < 5; i++){
 
             este.ventana = scene.add.image(posiciones[i][0],posiciones[i][1], 'ventana');
             este.ventana.pos = i
-            este.palabra_box = scene.add.image(posiciones_box[i][0],posiciones_box[i][1], 'palabra');
+            // este.palabra_box = scene.add.image(posiciones_box[i][0],posiciones_box[i][1], 'palabra');
             este.saloon_container.add(este.ventana)
-            este.saloon_container.add(este.palabra_box)
+            // este.saloon_container.add(este.palabra_box)
             este.tabla_ventanas.push(este.ventana)
         }
 
