@@ -67,10 +67,11 @@ class MyGame extends Phaser.Scene
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
         // console.log(saloon)
         // sonidos  - pasar a una class después.
-        click = this.sound.add('click', {volume: 0.05});
-        del = this.sound.add('del', {volume: 0.05});
-        ok = this.sound.add('ok', {volume: 0.05});
-        hit = this.sound.add('hit', {volume: 0.05});
+        let volumen = 0
+        click = this.sound.add('click', {volume: volumen});
+        del = this.sound.add('del', {volume: volumen});
+        ok = this.sound.add('ok', {volume: volumen});
+        hit = this.sound.add('hit', {volume: volumen});
 
         // keyboard input
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
