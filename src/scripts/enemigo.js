@@ -11,14 +11,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
     constructor (scene, x, y, palabra, pos, fnc_igual_cero)
     {        
         super(scene); 
-        // this.enemy = scene.add.image(0,245,'enemigo')
-        this.enemy = scene.make.image({
-            x: 0,
-            y: 245,
-            key: 'enemigo',
-            add: true
-        });
-
+        this.enemy = scene.add.image(0,245,'enemigo')
 
         // tween target 50
         this.x = x

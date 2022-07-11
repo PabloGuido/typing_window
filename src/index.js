@@ -24,7 +24,7 @@ let grupoTest
 let esta_escena
 
 // tablas
-
+let tabla_mask = []
 let enemigos_en = tablas.enemigos_en;
 let posiciones_enemgios = tablas.posiciones_enemgios
 let numero_de_letra = tablas.numero_de_letra;
@@ -38,6 +38,9 @@ let palabra_completa
 let limpiar_tablas
 export let creacion_de_grupo_enemigo
 export let timer_creacion_de_grupo_enemigo
+
+// 
+let fondo2
 
 class MyGame extends Phaser.Scene
 {
@@ -133,12 +136,13 @@ class MyGame extends Phaser.Scene
             limpiar_tablas();
             del.play();
         });
+
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
         grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
 
         // ----
-        
+
 
     }
 
