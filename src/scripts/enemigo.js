@@ -16,7 +16,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
             x: 0,
             y: 245,
             key: 'enemigo',
-            add: false
+            add: true
         });
 
 

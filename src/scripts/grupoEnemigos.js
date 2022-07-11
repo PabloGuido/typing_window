@@ -52,13 +52,14 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
 
         // crea el enemigo
         let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra, posicion_disponible_random)
-        // saloon.tabla_ventanas[posicion_disponible_random].add = false
+
         // --------------------------------------------------------
         // saloon.tabla_ventanas[posicion_disponible_random].add = true
-        // console.log(saloon.tabla_ventanas[posicion_disponible_random])
-        // nuevo_enemigo.enemy.add = false
+        // console.log(nuevo_enemigo.container.list[0])
+
         // nuevo_enemigo.enemy.mask = new Phaser.Display.Masks.BitmapMask(scene, saloon.tabla_ventanas[posicion_disponible_random]);
-        // // saloon.tabla_ventanas[posicion_disponible_random].mask = new Phaser.Display.Masks.BitmapMask(scene, nuevo_enemigo.enemy);
+        // saloon.tabla_ventanas[posicion_disponible_random].mask = new Phaser.Display.Masks.BitmapMask(scene, nuevo_enemigo.container.list[0]);
+        nuevo_enemigo.container.list[0].mask = new Phaser.Display.Masks.BitmapMask(scene, saloon.tabla_ventanas[posicion_disponible_random]);
         // --------------------------------------------------------
 
         enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo;
