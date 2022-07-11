@@ -24,7 +24,7 @@ let grupoTest
 let esta_escena
 
 // tablas
-let tabla_mask = []
+let tabla_mask2 = []
 let enemigos_en = tablas.enemigos_en;
 let posiciones_enemgios = tablas.posiciones_enemgios
 let numero_de_letra = tablas.numero_de_letra;
@@ -39,9 +39,10 @@ let limpiar_tablas
 export let creacion_de_grupo_enemigo
 export let timer_creacion_de_grupo_enemigo
 
-// 
-let fondo2
-
+let maskImage
+let bitmask1
+let shape
+let mask2 
 class MyGame extends Phaser.Scene
 {
     constructor ()
@@ -66,9 +67,24 @@ class MyGame extends Phaser.Scene
       
     create ()
     {
+
         esta_escena = this
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
         // console.log(saloon)
+        const debug = this.add.graphics();
+        debug.fillStyle(0xff0000, 0.2);
+        debug.fillCircle(0, 0, 700);
+
+        maskImage = this.make.image({
+            x: midX,
+            y: midY,
+            key: 'saloonBkg',
+            add: false
+        });
+
+        bitmask1 = maskImage.createBitmapMask();
+        shape = this.make.graphics().fillCircle(0, 0, 700);
+        mask2 = shape.createGeometryMask();
         // sonidos  - pasar a una class después.
         let volumen = 0
         click = this.sound.add('click', {volume: volumen});
@@ -139,8 +155,13 @@ class MyGame extends Phaser.Scene
 
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
-        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
-
+        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, mask2)
+        // console.log(enemigos_en)
+        for (let k = 0; k < 5; k++){
+            if (enemigos_en[k] != 0){
+                // enemigos_en[k].container.setMask(mask2)
+            }
+        }
         // ----
 
 
@@ -157,7 +178,7 @@ class MyGame extends Phaser.Scene
 
 
 creacion_de_grupo_enemigo = function() {
-    grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+    grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, mask2)
     hit.play();
 }
 

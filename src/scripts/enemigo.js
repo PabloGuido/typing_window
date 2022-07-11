@@ -8,11 +8,11 @@ var resta = 1
 export default class Enemigo extends Phaser.GameObjects.Container 
 
 {
-    constructor (scene, x, y, palabra, pos, fnc_igual_cero)
+    constructor (scene, x, y, palabra, pos, mask2)
     {        
         super(scene); 
         this.enemy = scene.add.image(0,245,'enemigo')
-
+        
         // tween target 50
         this.x = x
         this.y = y
@@ -25,13 +25,17 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.text = scene.add.text(-100, 130, palabra, {fontSize: '32px', fontStyle: 'bold', color: "#ffffff"}).setOrigin(0,0)
         this.textColor = scene.add.text(-100, 130, "", {fontSize: '32px', fontStyle: 'bold', color: "#ff0000"}).setOrigin(0,0)
         this.container = scene.add.container(x, y, [this.enemy, this.barra, this.r2, this.r1, this.text, this.textColor])
+
         this.tipo = 'enemigo'
         this.nombre = 'Medusa'
         this.vida = 1
         this.fuerza_de_ataque = 1 
         this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
         this.posicion = pos
+        this.mask = mask2
+        this.container.setMask(mask2)
         this.tween_aparecer_desde_abajo(scene)
+        console.log(this.mask)
     }
 
     eliminar(){
