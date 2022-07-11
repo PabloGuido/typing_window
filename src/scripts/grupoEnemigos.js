@@ -52,7 +52,16 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
 
         // crea el enemigo
         let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra, posicion_disponible_random)
-        enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo
+        // saloon.tabla_ventanas[posicion_disponible_random].add = false
+        // --------------------------------------------------------
+        // saloon.tabla_ventanas[posicion_disponible_random].add = true
+        // console.log(saloon.tabla_ventanas[posicion_disponible_random])
+        // nuevo_enemigo.enemy.add = false
+        // nuevo_enemigo.enemy.mask = new Phaser.Display.Masks.BitmapMask(scene, saloon.tabla_ventanas[posicion_disponible_random]);
+        // // saloon.tabla_ventanas[posicion_disponible_random].mask = new Phaser.Display.Masks.BitmapMask(scene, nuevo_enemigo.enemy);
+        // --------------------------------------------------------
+
+        enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo;
         scene.add.existing(nuevo_enemigo)   
         // 
         palabras_a_escribir[posicion_disponible_random] = nueva_palabra
@@ -61,6 +70,9 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let index_nueva_palabra = this.palabras.indexOf(nueva_palabra); 
         this.palabras.splice(index_nueva_palabra,1);
         // console.log(this.palabras)
+
+
+
 
     }
 

@@ -11,7 +11,16 @@ export default class Enemigo extends Phaser.GameObjects.Container
     constructor (scene, x, y, palabra, pos, fnc_igual_cero)
     {        
         super(scene); 
-        this.enemy = scene.add.image(0,50,'enemigo')
+        // this.enemy = scene.add.image(0,245,'enemigo')
+        this.enemy = scene.make.image({
+            x: 0,
+            y: 245,
+            key: 'enemigo',
+            add: false
+        });
+
+
+        // tween target 50
         this.x = x
         this.y = y
         this.timer = timer
@@ -29,6 +38,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.fuerza_de_ataque = 1 
         this.sonido_ataque = scene.sound.add('del', {volume: 0.25});
         this.posicion = pos
+        this.tween_aparecer_desde_abajo(scene)
     }
 
     eliminar(){
@@ -41,8 +51,13 @@ export default class Enemigo extends Phaser.GameObjects.Container
         index.timer_creacion_de_grupo_enemigo()
     }
 
-    restablecer_tablas(){
-
+    tween_aparecer_desde_abajo(escena){
+        this.tween = escena.tweens.add({
+        targets: this.enemy,
+        y: 50,
+        duration: 1095,
+        ease: 'Power2',
+    });
 
     }
 

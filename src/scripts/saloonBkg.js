@@ -8,7 +8,13 @@ export default class Saloon extends Phaser.GameObjects.Container
         super(scene); 
         este = this
         //  saloon background 
-        this.saloon_fondo = scene.add.image(0, 0, 'saloonBkg');
+        // this.saloon_fondo = scene.add.image(0, 0, 'saloonBkg');
+        this.saloon_fondo = scene.make.image({
+            x: 0,
+            y: 0,
+            key: 'saloonBkg',
+            add: true,
+        });
         this.saloon_container = scene.add.container(x, y, [this.saloon_fondo]);
         this.tabla_ventanas = []
         this.crear_ventanas(scene)
@@ -23,8 +29,13 @@ export default class Saloon extends Phaser.GameObjects.Container
         let posiciones_box = [[-vX,-50],[0,-50],[vX,-50],[-vX,250],[vX,250]]
 
         for (let i = 0; i < 5; i++){
-
-            este.ventana = scene.add.image(posiciones[i][0],posiciones[i][1], 'ventana');
+            this.ventana = scene.make.image({
+                x: posiciones[i][0],
+                y: posiciones[i][1],
+                key: 'ventana',
+                add: false
+            });
+            // este.ventana = scene.add.image(posiciones[i][0],posiciones[i][1], 'ventana');
             este.ventana.pos = i
             // este.palabra_box = scene.add.image(posiciones_box[i][0],posiciones_box[i][1], 'palabra');
             este.saloon_container.add(este.ventana)
