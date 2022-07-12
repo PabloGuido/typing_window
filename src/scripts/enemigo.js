@@ -52,7 +52,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.tween = escena.tweens.add({
         targets: this.enemy,
         y: 50,
-        duration: 1095,
+        duration: 895,
         ease: 'Power2',
     });
 
