@@ -35,7 +35,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.mask = mask2
         this.container.setMask(mask2)
         this.tween_aparecer_desde_abajo(scene)
-        console.log(this.mask)
+        // console.log(this.mask)
     }
 
     eliminar(){
