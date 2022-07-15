@@ -13,7 +13,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         super(scene); 
         this.escena = scene
         this.enemy = scene.add.image(0,245,'enemigo')
-        este = this
+        this.este = this
         // tween target 50
         this.x = x
         this.y = y
@@ -51,24 +51,29 @@ export default class Enemigo extends Phaser.GameObjects.Container
 
     eliminar(escena){
         // console.log("limpiar tablas")
-        tablas.restablecer_tablas(this.posicion)
+        // tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
         this.vida = 0;
-        // this.tween = escena.tweens.add({
-        //     targets: this.enemy,
-        //     y: 245,
-        //     duration: 300,
-        //     ease: 'Power1',
-        //     onComplete: function () {
-        //         // este.destroy();
-        //         // este.container.destroy();
-        //         // index.timer_creacion_de_grupo_enemigo()
-        //     }         
+        let este2 = this.este
+        let tween = escena.tweens.add({
+            targets: this.enemy,
+            y: 245,
+            duration: 200,
+            ease: 'Power1',
+            repeat: false,
+            onComplete: function () {
+                tablas.restablecer_tablas(este2.posicion)
+                este2.destroy();
+                este2.container.destroy();
+                index.timer_creacion_de_grupo_enemigo()
+                // tween.stop();
+                
+            }         
 
-        // });
-        this.destroy();
-        this.container.destroy();
-        index.timer_creacion_de_grupo_enemigo()
+        });
+        // this.destroy();
+        // this.container.destroy();
+        // index.timer_creacion_de_grupo_enemigo()
 
 
     }
@@ -97,9 +102,9 @@ export default class Enemigo extends Phaser.GameObjects.Container
             this.timer -= resta
             this.barra.width = ((this.timer * 100)/timer) / 0.5
             // this.text.text = this.timer
-            if (this.timer < 0){
+            if (this.timer < 0 && this.vida > 0){
                 // this.timer = timer
-                // console.log('Timer out: eliminar enemigo.')
+                console.log('Timer out: eliminar enemigo.')
                 this.eliminar(this.escena)
 
 

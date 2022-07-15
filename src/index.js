@@ -235,16 +235,20 @@ limpiar_tablas = function(es_una_palabra_completa) {
 
 palabra_completa = function(posEnArray) {
     // Acá hay que flaguear las prioridades entre el player y el timer del enemigo. Por ahora parece que está bien igual.
+    // Se puso una flag, hay que seguir probando si funciona.
     // Elimina el enemigo y limpia esa posición en las tablas.
-    limpiar_tablas()
+    if (enemigos_en[posEnArray].timer > 0){
+        console.log("Palabra completa, eliminar enemigo.")
+        limpiar_tablas()
 
-    palabras_a_escribir[posEnArray] = "!"
-    enemigos_en[posEnArray].eliminar(esta_escena);
-    enemigos_en[posEnArray] = 0
+        palabras_a_escribir[posEnArray] = "!"
+        enemigos_en[posEnArray].eliminar(esta_escena);
+        enemigos_en[posEnArray] = 0
 
-    // console.log(tablas.enemigos_en)
+        // console.log(tablas.enemigos_en)
 
-    ok.play();
+        ok.play();
+    }
 }
 
 const config = {
