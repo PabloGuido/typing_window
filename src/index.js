@@ -87,7 +87,7 @@ class MyGame extends Phaser.Scene
         // mask2 = shape.createGeometryMask();
         // mask2 = saloon.mask
         // sonidos  - pasar a una class después.
-        let volumen = 0.25
+        let volumen = 0
         click = this.sound.add('click', {volume: volumen});
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
@@ -239,7 +239,7 @@ palabra_completa = function(posEnArray) {
     limpiar_tablas()
 
     palabras_a_escribir[posEnArray] = "!"
-    enemigos_en[posEnArray].eliminar();
+    enemigos_en[posEnArray].eliminar(esta_escena);
     enemigos_en[posEnArray] = 0
 
     // console.log(tablas.enemigos_en)

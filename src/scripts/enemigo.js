@@ -1,6 +1,6 @@
 let tablas = require('./tablas');
 let index = require('../index');
-
+let este
 // console.log(tablas.restablecer_tablas)
 var timer = 300
 var resta = 1
@@ -11,8 +11,9 @@ export default class Enemigo extends Phaser.GameObjects.Container
     constructor (scene, x, y, palabra, pos, mask2)
     {        
         super(scene); 
+        this.escena = scene
         this.enemy = scene.add.image(0,245,'enemigo')
-        
+        este = this
         // tween target 50
         this.x = x
         this.y = y
@@ -35,26 +36,50 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.mask = mask2
         this.container.setMask(mask2)
         this.tween_aparecer_desde_abajo(scene)
-        // console.log(this.mask)
+
     }
 
-    eliminar(){
+
+
+    eliminacion_final(){
+        tablas.restablecer_tablas(este.posicion)
+        este.destroy();
+        este.container.destroy();
+        index.timer_creacion_de_grupo_enemigo()
+
+    }
+
+    eliminar(escena){
         // console.log("limpiar tablas")
         tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
         this.vida = 0;
+        // this.tween = escena.tweens.add({
+        //     targets: this.enemy,
+        //     y: 245,
+        //     duration: 300,
+        //     ease: 'Power1',
+        //     onComplete: function () {
+        //         // este.destroy();
+        //         // este.container.destroy();
+        //         // index.timer_creacion_de_grupo_enemigo()
+        //     }         
+
+        // });
         this.destroy();
         this.container.destroy();
         index.timer_creacion_de_grupo_enemigo()
+
+
     }
 
     tween_aparecer_desde_abajo(escena){
         this.tween = escena.tweens.add({
-        targets: this.enemy,
-        y: 50,
-        duration: 895,
-        ease: 'Power2',
-    });
+            targets: this.enemy,
+            y: 50,
+            duration: 895,
+            ease: 'Power2',
+        });
 
     }
 
@@ -73,9 +98,9 @@ export default class Enemigo extends Phaser.GameObjects.Container
             this.barra.width = ((this.timer * 100)/timer) / 0.5
             // this.text.text = this.timer
             if (this.timer < 0){
-                this.timer = timer
+                // this.timer = timer
                 // console.log('Timer out: eliminar enemigo.')
-                this.eliminar()
+                this.eliminar(this.escena)
 
 
             }
