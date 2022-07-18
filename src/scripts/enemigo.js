@@ -2,7 +2,8 @@ let tablas = require('./tablas');
 let index = require('../index');
 let este
 // console.log(tablas.restablecer_tablas)
-var timer = 300
+var timer = 700
+// 300
 var resta = 1
 
 export default class Enemigo extends Phaser.GameObjects.Container 
@@ -53,6 +54,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         // console.log("limpiar tablas")
         // tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
+        tablas.sacar_primer_palabra()
         this.vida = 0;
         let este2 = this.este
         let tween = escena.tweens.add({

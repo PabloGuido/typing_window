@@ -22,6 +22,7 @@ let hit
 let saloon
 let grupoTest 
 let esta_escena
+let numerados
 
 // tablas
 let tabla_mask2 = []
@@ -92,7 +93,7 @@ class MyGame extends Phaser.Scene
         // mask2 = shape.createGeometryMask();
         // mask2 = saloon.mask
         // sonidos  - pasar a una class después.
-        let volumen = 0
+        let volumen = 0.25
         click = this.sound.add('click', {volume: volumen});
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
@@ -118,8 +119,17 @@ class MyGame extends Phaser.Scene
                             if (Math.max.apply(Math, numero_de_letra) > 0 && palabras_a_escribir[i].charAt(numero_de_letra[i])  === palabras_a_escribir[index].charAt(numero_de_letra[index]-1) ){
                                 // Esto hace la comparación para que se escriban letras cuando las palabras compraten las mismas hasta que no.
                                 // console.log('')
-                                enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                                numero_de_letra[i] += 1;
+                                if (numerados === true && palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
+                                    enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                    console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
+                                    numero_de_letra[i] += 1;  
+                                    
+                                }
+                                else if (numerados === false){
+                                    enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                    numero_de_letra[i] += 1;   
+                                }
+
                                 // console.log('numero_de_letra[i] += 1 ~ en comparación 1')
                             }
                             else if (Math.max.apply(Math, numero_de_letra) === 1 && palabra_actual != palabras_a_escribir[index].charAt(numero_de_letra[index]-1) && numero_de_letra[i] != numero_de_letra[index] ){
@@ -130,8 +140,16 @@ class MyGame extends Phaser.Scene
                             }
                              else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
-                                enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                                numero_de_letra[i] += 1;
+                                if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
+                                    enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                    console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
+                                    numero_de_letra[i] += 1;  
+                                    
+                                }
+                                else if (numerados === false){
+                                    enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
+                                    numero_de_letra[i] += 1;   
+                                }
                                 // console.log('numero_de_letra[i] += 1 ~ en comparación 3')
                             }                           
                             
@@ -162,6 +180,8 @@ class MyGame extends Phaser.Scene
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
         grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+        numerados = grupoTest.numerados
+        console.log(numerados)
         // console.log(grupoTest)
         for (let k = 0; k < 5; k++){
             if (enemigos_en[k] != 0){
@@ -185,6 +205,7 @@ class MyGame extends Phaser.Scene
 
 creacion_de_grupo_enemigo = function() {
     grupoTest.crear_grupo_simple(esta_escena, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+    numerados = grupoTest.numerados
     hit.play();
 }
 

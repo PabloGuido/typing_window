@@ -21,6 +21,13 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
     }
 
     crear_grupo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir){
+        // false on/off para test
+        if (this.numerados === true){
+            this.numerados = false
+        }
+        else {
+            this.numerados = true
+        }
         this.palabras = listas.palabras.slice(0, listas.palabras.length) 
         let numero_random = Math.floor(Math.random() * 5 + 1);
         for (let i = 0; i < numero_random; i++) {
@@ -28,6 +35,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
             this.crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, i+1)
         }
         console.log(tablas.palabras_numeradas)
+
     }
 
     crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, numero_de_enemigo){
@@ -52,6 +60,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let enemyX = midX + saloon.tabla_ventanas[posicion_disponible_random].x
         let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
         let skin_enemigo
+
         // crea el enemigo
         if (this.numerados === false){
             skin_enemigo = "enemigo"
