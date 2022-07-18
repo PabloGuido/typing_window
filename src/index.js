@@ -54,6 +54,11 @@ class MyGame extends Phaser.Scene
     {
         // imgage
         this.load.image('enemigo', 'src/assets/enemigo.png');
+        this.load.image('enum1', 'src/assets/enum1.png');
+        this.load.image('enum2', 'src/assets/enum2.png');
+        this.load.image('enum3', 'src/assets/enum3.png');
+        this.load.image('enum4', 'src/assets/enum4.png');
+        this.load.image('enum5', 'src/assets/enum5.png');
         this.load.image('saloonBkg', 'src/assets/saloonBkg.png');
         this.load.image('ventana', 'src/assets/ventana.png');
         this.load.image('palabra', 'src/assets/palabra.png');  
@@ -123,7 +128,7 @@ class MyGame extends Phaser.Scene
                                 // console.log('Salteando')
                                 continue 
                             }
-                            else{
+                             else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
                                 enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                 numero_de_letra[i] += 1;

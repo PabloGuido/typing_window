@@ -8,11 +8,11 @@ var resta = 1
 export default class Enemigo extends Phaser.GameObjects.Container 
 
 {
-    constructor (scene, x, y, palabra, pos, mask2)
+    constructor (scene, x, y, palabra, pos, mask2, skin)
     {        
         super(scene); 
         this.escena = scene
-        this.enemy = scene.add.image(0,245,'enemigo')
+        this.enemy = scene.add.image(0,245, skin)
         this.este = this
         // tween target 50
         this.x = x

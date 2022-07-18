@@ -14,6 +14,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         super(scene); 
         este = this
         this.palabras = listas.palabras.slice(0, listas.palabras.length) 
+        this.numerados = true
         // console.log(listas.palabras)
 
         
@@ -24,12 +25,12 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let numero_random = Math.floor(Math.random() * 5 + 1);
         for (let i = 0; i < numero_random; i++) {
             // console.log(i)
-            this.crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+            this.crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, i+1)
         }
         
     }
 
-    crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir){
+    crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, numero_de_enemigo){
         // genera la palabra nueva
         let numero_random = Math.floor(Math.random() * this.palabras .length);
         let nueva_palabra = this.palabras [numero_random]
@@ -50,9 +51,17 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         // posición del enemigo en ventana
         let enemyX = midX + saloon.tabla_ventanas[posicion_disponible_random].x
         let enemyY = midY + saloon.tabla_ventanas[posicion_disponible_random].y
-        
+        let skin_enemigo
         // crea el enemigo
-        let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra, posicion_disponible_random, tablas.tabla_mask[posicion_disponible_random])
+        if (this.numerados === false){
+            skin_enemigo = "enemigo"
+
+        }
+        else if (this.numerados === true){
+            skin_enemigo = "enum" + numero_de_enemigo
+        }
+
+        let nuevo_enemigo = new Enemigo(scene, enemyX, enemyY, nueva_palabra, posicion_disponible_random, tablas.tabla_mask[posicion_disponible_random], skin_enemigo)
         // console.log(posicion_disponible_random)
         
         enemigos_en[saloon.tabla_ventanas[posicion_disponible_random].pos] = nuevo_enemigo;
@@ -64,9 +73,9 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         let index_nueva_palabra = this.palabras.indexOf(nueva_palabra); 
         this.palabras.splice(index_nueva_palabra,1);
         // console.log(this.palabras)
+    }
 
-
-
+    crear_enemigos_numerados(){
 
     }
 
