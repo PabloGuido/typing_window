@@ -104,7 +104,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
             // this.text.text = this.timer
             if (this.timer < 0 && this.vida > 0){
                 // this.timer = timer
-                console.log('Timer out: eliminar enemigo.')
+                // console.log('Timer out: eliminar enemigo.')
                 this.eliminar(this.escena)
 
 

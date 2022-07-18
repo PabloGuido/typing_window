@@ -27,13 +27,13 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
             // console.log(i)
             this.crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, i+1)
         }
-        
+        console.log(tablas.palabras_numeradas)
     }
 
     crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, numero_de_enemigo){
         // genera la palabra nueva
         let numero_random = Math.floor(Math.random() * this.palabras .length);
-        let nueva_palabra = this.palabras [numero_random]
+        let nueva_palabra = this.palabras[numero_random]
         // console.log(nueva_palabra)
 
         // ventana random
@@ -68,6 +68,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
         scene.add.existing(nuevo_enemigo)   
         // 
         palabras_a_escribir[posicion_disponible_random] = nueva_palabra
+        tablas.palabras_numeradas.push(nueva_palabra);
         // quita la palabra de la copia de la tabla para que no se repitan las palabras
         
         let index_nueva_palabra = this.palabras.indexOf(nueva_palabra); 

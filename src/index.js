@@ -243,7 +243,7 @@ palabra_completa = function(posEnArray) {
     // Se puso una flag, hay que seguir probando si funciona.
     // Elimina el enemigo y limpia esa posición en las tablas.
     if (enemigos_en[posEnArray].timer > 0){
-        console.log("Palabra completa, eliminar enemigo.")
+        // console.log("Palabra completa, eliminar enemigo.")
         limpiar_tablas()
 
         palabras_a_escribir[posEnArray] = "!"
