@@ -52,7 +52,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
 
     }
 
-    eliminar(escena, player){
+    eliminar(escena, player, ui){
         // console.log("limpiar tablas")
         // tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
@@ -77,10 +77,11 @@ export default class Enemigo extends Phaser.GameObjects.Container
         });
         if (this.timer > 0){
             player.sumar_puntos(50)
+            ui.actualizar_puntos(player.puntos)
         }
         else {
-            tablas.enemigos_eliminados(false)
             
+            tablas.enemigos_eliminados(false)            
         }
 
 

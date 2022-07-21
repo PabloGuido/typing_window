@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
 import Player from './scripts/player'
 import Saloon from './scripts/saloonBkg'
+import Ui from './scripts/ui'
 import GrupoEnemigos from './scripts/grupoEnemigos'
 let tablas = require('./scripts/tablas');
 // let player = require('./scripts/player');
@@ -23,6 +24,7 @@ let hit
 // vars
 let saloon
 let player
+let ui
 let grupoTest 
 let esta_escena
 let numerados
@@ -81,7 +83,7 @@ class MyGame extends Phaser.Scene
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
 
         player = new Player();
-
+        ui = new Ui(this, player.puntos, player.vidas);
         // sonidos  - pasar a una class después.
         let volumen = 0
         click = this.sound.add('click', {volume: volumen});
@@ -208,7 +210,13 @@ timer_creacion_de_grupo_enemigo = function() {
 
         limpiar_tablas();
         if (tablas.todos_los_enemigos_eliminados === false){
-            player.restar_vidas()
+            player.restar_vidas();
+            ui.actualizar_vidas();
+            if (player.vidas <= 0){
+                console.log('Game Over')
+                return
+            }
+
         }
         tablas.enemigos_eliminados(true)
         var timer = esta_escena.time.addEvent({
@@ -261,7 +269,7 @@ palabra_completa = function(posEnArray) {
         limpiar_tablas()
 
         palabras_a_escribir[posEnArray] = "!"
-        enemigos_en[posEnArray].eliminar(esta_escena, player);
+        enemigos_en[posEnArray].eliminar(esta_escena, player, ui);
         enemigos_en[posEnArray] = 0
 
         // console.log(tablas.enemigos_en)

@@ -1,7 +1,7 @@
 export default class Player
 
 {
-    constructor (scene)
+    constructor ()
     {        
     	this.puntos = 0
     	this.vidas = 3
@@ -10,7 +10,7 @@ export default class Player
     sumar_puntos(cantidad)
     {
     	this.puntos += cantidad
-    	console.log(this.puntos)
+    	// console.log(this.puntos)
     }
     restar_vidas()
     {
@@ -20,27 +20,3 @@ export default class Player
 }
 
 
-
-
-
-
-
-
-
-
-
-
-// export let vidas = 3
-// export let puntos = 0
-// export let sumar_puntos
-// export let restar_vidas
-
-// sumar_puntos = function (cantidad)
-//     {
-//     	puntos += cantidad;
-//     }
-
-// restar_vidas = function ()
-//     {
-//     	vidas = vidas - 1;
-//     }
