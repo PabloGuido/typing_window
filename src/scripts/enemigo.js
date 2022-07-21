@@ -21,7 +21,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
         this.x = x
         this.y = y
         this.timer = timer
-        this.barra =  scene.add.rectangle(0, -100, 202, 32, 0x500050)
+        this.barra =  scene.add.rectangle(0, -100, 202, 32, 0x000000)
 
         this.r1 = scene.add.rectangle(-103, 127, 200, 38, 0x000000).setOrigin(0,0);
         this.r2 = scene.add.rectangle(-103, 126, 200, 45, 0xffffff).setOrigin(0,0);
@@ -80,7 +80,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
             ui.actualizar_puntos(player.puntos)
         }
         else {
-            
+
             tablas.enemigos_eliminados(false)            
         }
 

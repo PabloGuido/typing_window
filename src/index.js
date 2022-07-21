@@ -133,6 +133,7 @@ class MyGame extends Phaser.Scene
                              else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
                                 if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
+                                    // Hacer un chequeo de undefined por si se llega a romper. Hay que seguir probando. Si tira error pero no pasa nada por ahí se deja así por el momento.
                                     enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                     // console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
                                     numero_de_letra[i] += 1;  
