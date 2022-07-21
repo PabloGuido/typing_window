@@ -1,8 +1,10 @@
 let tablas = require('./tablas');
 let index = require('../index');
+// let player = require('./player');
+
 let este
 // console.log(tablas.restablecer_tablas)
-var timer = 700
+var timer = 450
 // 300
 var resta = 1
 
@@ -50,7 +52,7 @@ export default class Enemigo extends Phaser.GameObjects.Container
 
     }
 
-    eliminar(escena){
+    eliminar(escena, player){
         // console.log("limpiar tablas")
         // tablas.restablecer_tablas(this.posicion)
         // console.log(this.posicion)
@@ -73,9 +75,14 @@ export default class Enemigo extends Phaser.GameObjects.Container
             }         
 
         });
-        // this.destroy();
-        // this.container.destroy();
-        // index.timer_creacion_de_grupo_enemigo()
+        if (this.timer > 0){
+            player.sumar_puntos(50)
+        }
+        else {
+            tablas.enemigos_eliminados(false)
+            
+        }
+
 
 
     }

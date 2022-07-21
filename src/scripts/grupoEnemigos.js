@@ -34,7 +34,7 @@ export default class GrupoEnemigos extends Phaser.GameObjects.Container
             // console.log(i)
             this.crear_enemigo_simple(scene, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir, i+1)
         }
-        console.log(tablas.palabras_numeradas)
+        // console.log(tablas.palabras_numeradas)
 
     }
 

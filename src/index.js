@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
 import Enemigo from './scripts/enemigo'
+import Player from './scripts/player'
 import Saloon from './scripts/saloonBkg'
 import GrupoEnemigos from './scripts/grupoEnemigos'
 let tablas = require('./scripts/tablas');
+// let player = require('./scripts/player');
 
 // vars pantalla
 let midX = 1280/2
@@ -20,6 +22,7 @@ let hit
 
 // vars
 let saloon
+let player
 let grupoTest 
 let esta_escena
 let numerados
@@ -76,22 +79,9 @@ class MyGame extends Phaser.Scene
 
         esta_escena = this
         saloon = new Saloon(this, midX, midY) // Crea el fondo del saloon que contiene las ventanas y las palabras_box
-        // console.log(saloon)
-        // const debug = this.add.graphics();
-        // debug.fillStyle(0xff0000, 0.2);
-        // debug.fillCircle(0, 0, 700);
-        // Esto no sé si hace falta, ó para qué. --------------------
-        // maskImage = this.make.image({
-        //     x: midX,
-        //     y: midY,
-        //     key: 'saloonBkg',
-        //     add: false
-        // });
-        // bitmask1 = maskImage.createBitmapMask();
-        // ----------------------------------------------------------
-        // shape = this.make.graphics().fillCircle(0, 0, 700);
-        // mask2 = shape.createGeometryMask();
-        // mask2 = saloon.mask
+
+        player = new Player();
+
         // sonidos  - pasar a una class después.
         let volumen = 0
         click = this.sound.add('click', {volume: volumen});
@@ -181,7 +171,7 @@ class MyGame extends Phaser.Scene
         grupoTest = new GrupoEnemigos(this)
         grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
         numerados = grupoTest.numerados
-        console.log(numerados)
+        // console.log(numerados)
         // console.log(grupoTest)
         for (let k = 0; k < 5; k++){
             if (enemigos_en[k] != 0){
@@ -217,7 +207,10 @@ timer_creacion_de_grupo_enemigo = function() {
         // console.log('todos igual a 0, crear nuevos enemigos.')
 
         limpiar_tablas();
-
+        if (tablas.todos_los_enemigos_eliminados === false){
+            player.restar_vidas()
+        }
+        tablas.enemigos_eliminados(true)
         var timer = esta_escena.time.addEvent({
         delay: 1000,                // ms
         callback: creacion_de_grupo_enemigo,
@@ -268,7 +261,7 @@ palabra_completa = function(posEnArray) {
         limpiar_tablas()
 
         palabras_a_escribir[posEnArray] = "!"
-        enemigos_en[posEnArray].eliminar(esta_escena);
+        enemigos_en[posEnArray].eliminar(esta_escena, player);
         enemigos_en[posEnArray] = 0
 
         // console.log(tablas.enemigos_en)

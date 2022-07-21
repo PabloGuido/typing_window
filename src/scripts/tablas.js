@@ -8,6 +8,8 @@ export let tabla_mask = [];
 export let restablecer_tablas
 export let sacar_primer_palabra
 export let todosIgualCero
+export let todos_los_enemigos_eliminados = true
+export let enemigos_eliminados 
 
 restablecer_tablas = function(pos) {
 	enemigos_en[pos] = 0
@@ -21,5 +23,11 @@ sacar_primer_palabra = function(){
 	palabras_numeradas.shift()
 	// console.log(palabras_numeradas)
 }
+
+enemigos_eliminados = function(trueOrNot) {
+	todos_los_enemigos_eliminados = trueOrNot
+	// console.log('enemigos eliminados: ' + todos_los_enemigos_eliminados)
+}
+
 
 
