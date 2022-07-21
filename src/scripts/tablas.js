@@ -19,7 +19,7 @@ restablecer_tablas = function(pos) {
 
 sacar_primer_palabra = function(){
 	palabras_numeradas.shift()
-	console.log(palabras_numeradas)
+	// console.log(palabras_numeradas)
 }
 
 

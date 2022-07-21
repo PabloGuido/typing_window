@@ -93,7 +93,7 @@ class MyGame extends Phaser.Scene
         // mask2 = shape.createGeometryMask();
         // mask2 = saloon.mask
         // sonidos  - pasar a una class después.
-        let volumen = 0.25
+        let volumen = 0
         click = this.sound.add('click', {volume: volumen});
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
@@ -121,7 +121,7 @@ class MyGame extends Phaser.Scene
                                 // console.log('')
                                 if (numerados === true && palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
                                     enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                                    console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
+                                    // console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
                                     numero_de_letra[i] += 1;  
                                     
                                 }
@@ -142,7 +142,7 @@ class MyGame extends Phaser.Scene
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
                                 if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
                                     enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
-                                    console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
+                                    // console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
                                     numero_de_letra[i] += 1;  
                                     
                                 }
