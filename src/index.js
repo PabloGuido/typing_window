@@ -160,8 +160,8 @@ class MyGame extends Phaser.Scene
         });// keyboar input end ---
         
         keyEsc.on('down', function (key, event) {        
-            // console.log("Esc") 
-            console.log(numero_de_letra)
+            console.log("Esc: pausa on/off.") 
+            // console.log(numero_de_letra)
         });
 
         keyDel.on('down', function (key, event) {        
@@ -172,15 +172,12 @@ class MyGame extends Phaser.Scene
 
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
-        grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
-        numerados = grupoTest.numerados
+
+        // grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
+        // numerados = grupoTest.numerados
+        
         // console.log(numerados)
         // console.log(grupoTest)
-        for (let k = 0; k < 5; k++){
-            if (enemigos_en[k] != 0){
-                // enemigos_en[k].container.setMask(mask2)
-            }
-        }
         // ----
 
 
