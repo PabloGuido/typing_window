@@ -68,6 +68,8 @@ class MyGame extends Phaser.Scene
         this.load.image('saloonBkg', 'src/assets/saloonBkg.png');
         this.load.image('ventana', 'src/assets/ventana.png');
         this.load.image('palabra', 'src/assets/palabra.png');  
+        this.load.image('bandera_eng', 'src/assets/bandera_eng.png');  
+        this.load.image('bandera_esp', 'src/assets/bandera_esp.png');      
 
         // sonidos
         this.load.audio('click', 'src/assets/click.ogg');
@@ -175,7 +177,7 @@ class MyGame extends Phaser.Scene
 
         // grupoTest.crear_grupo_simple(this, enemigos_en, posiciones_enemgios, saloon, palabras_a_escribir)
         // numerados = grupoTest.numerados
-        
+
         // console.log(numerados)
         // console.log(grupoTest)
         // ----

@@ -1,9 +1,9 @@
 // export an array
 // export let palabrasTest = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 // 'conservas', 'recorrer', 'teatro', 'donde'];
+export let palabras
 
-
-export let palabras = ['para',
+palabras = ['para',
 'como',
 'pero',
 'sobre',

@@ -6,12 +6,25 @@ export default class Ui
 
         this.puntos = scene.add.text(640, 450, "puntos \n" + puntos, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
         this.vidas = scene.add.text(640, 525, "vidas \n ♥ ♥ ♥", {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
+        // Start - restart - pausa
         this.start_rect = scene.add.rectangle(0, 0, 148*2, 148, 0x000000)
-
-        this.container = scene.add.container(640, 360)
+        this.container = scene.add.container(640, 360).setAlpha(0)
         this.container.depth = 0.2
         this.crear_tapas(scene);
         this.container.add(this.start_rect) 
+        // Banderas
+        this.banderas_rect = scene.add.rectangle(0, 0, 148*2.75, 148, 0x000000)
+        this.banderas_rect1 = scene.add.rectangle(-100, 0, 160, 114, 0xffffff)
+        this.banderas_rect2 = scene.add.rectangle(100, 0, 160, 114, 0xffffff)
+        this.bandera_eng = scene.add.image(-100,0, 'bandera_eng').setInteractive();
+
+        this.bandera_eng.on('pointerover', function (event) {
+
+            this.setTexture('bandera_esp');
+
+        });
+        this.bandera_esp = scene.add.image(100,0, 'bandera_esp')
+        this.banderas_container = scene.add.container(640, 360,[this.banderas_rect,this.banderas_rect1,this.banderas_rect2,this.bandera_eng,this.bandera_esp])
     }
     actualizar_puntos(puntos)
     {
