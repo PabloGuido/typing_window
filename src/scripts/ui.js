@@ -9,6 +9,7 @@ export default class Ui
         esto = this
         this.puntos = scene.add.text(640, 450, "puntos \n" + puntos, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
         this.vidas = scene.add.text(640, 525, "vidas \n ♥ ♥ ♥", {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
+        this.game_over = false
         // Start - restart - pausa
         this.start_rect = scene.add.rectangle(0, 0, 148*2, 148, 0x000000)
         this.container = scene.add.container(640, 360).setAlpha(0)
@@ -28,7 +29,7 @@ export default class Ui
         });
         this.bandera_eng.on('pointerdown', function (event) {
             listas.elegir_idioma('eng')
-            esto.empezar_juego();
+            esto.empezar_juego(scene);
             // console.log(listas.palabras)
             // console.log('English')
         });
@@ -41,12 +42,23 @@ export default class Ui
         });
         this.bandera_esp.on('pointerdown', function (event) {
             listas.elegir_idioma('esp')
-            esto.empezar_juego();
+            esto.empezar_juego(scene);
             // console.log(listas.palabras)
             // console.log('Español')
         });
         this.banderas_container = scene.add.container(640, 360,[this.banderas_rect,this.banderas_rect1,this.banderas_rect2,this.bandera_eng,this.bandera_esp])
-    }
+        // Cuenta regresiva
+        this.cuenta_regresiva = scene.add.rectangle(0, 0, 148, 148, 0x000000)
+        this.cuenta_text = scene.add.text(0, 0, 3, {fontSize: '48px', fontStyle: 'bold', color: "#ffffff",  align: 'center' }).setOrigin(0.5,0.5)
+        
+        this.cuenta_container = scene.add.container(640, 360,[this.cuenta_regresiva, this.cuenta_text])
+        this.cuenta_container.setVisible(false)
+        // Game over
+        this.game_over_box = scene.add.rectangle(0,0, 148*2.5, 148, 0x000000)
+        this.game_over_text = scene.add.text(0, -10, 'Game over \n\n' + 'space to restart', {fontSize: '32px', fontStyle: 'bold', color: "#ffffff",  align: 'center' }).setOrigin(0.5,0.5)
+        this.game_over_container = scene.add.container(640,360, [this.game_over_box, this.game_over_text])
+        this.game_over_container.setVisible(false)
+    }   
     actualizar_puntos(puntos)
     {
         this.puntos.text = "puntos \n" + puntos
@@ -73,11 +85,35 @@ export default class Ui
         }
         // console.log(tablas.tabla_mask)
     }
-    empezar_juego(){
+    empezar_juego(scene){
         this.bandera_eng.disableInteractive();
         this.bandera_esp.disableInteractive();
         this.banderas_container.destroy();
-        index.timer_creacion_de_grupo_enemigo();
+        this.cuenta_container.setVisible(true)
+        this.timedEvent = scene.time.addEvent({ delay: 1000, callback: this.cuenta_regresiva_comienzo_juego, callbackScope: this, loop: true });
+        
+    }
+    cuenta_regresiva_comienzo_juego(){
+        this.cuenta_text.text = this.cuenta_text.text - 1
+        if (this.cuenta_text.text <= 0){
+            this.timedEvent.remove(false);
+            this.cuenta_container.setVisible(false)
+            index.timer_creacion_de_grupo_enemigo();
+        }
+    }
+    mostrar_game_over(){
+        this.game_over_container.setVisible(true)
+    }
+    cambiar_estado_game_over(estado){
+        this.game_over = estado
+    }
+    volver_a_jugar(){
+        if (this.game_over === true){
+            this.game_over = false;
+            this.vidas.text = "vidas \n ♥ ♥ ♥"
+            this.puntos.text = "puntos \n0"
+            this.game_over_container.setVisible(false)
+        }
     }
 
 }

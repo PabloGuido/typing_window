@@ -15,7 +15,11 @@ export default class Player
     restar_vidas()
     {
     	this.vidas -= 1
-    	console.log('Cantidad de vidas restantes: ' + this.vidas)
+    	// console.log('Cantidad de vidas restantes: ' + this.vidas)
+    }
+    volver_a_jugar(){
+        this.puntos = 0
+        this.vidas = 3
     }
 }
 

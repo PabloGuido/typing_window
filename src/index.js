@@ -14,6 +14,7 @@ let midY = 720/2
 // teclas
 let keyEsc
 let keyDel
+let keySpace
 
 // sonidos
 let click
@@ -44,6 +45,7 @@ let palabra_completa
 let limpiar_tablas
 export let creacion_de_grupo_enemigo
 export let timer_creacion_de_grupo_enemigo
+export let volver_a_jugar
 
 let maskImage
 let bitmask1
@@ -98,7 +100,7 @@ class MyGame extends Phaser.Scene
         // keyboard input
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
-
+        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.input.keyboard.on('keydown', function (event) {
             if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 100)){
                 click.play();
@@ -174,6 +176,10 @@ class MyGame extends Phaser.Scene
             del.play();
         });
 
+        keySpace.on('down', function (key, event) {        
+            volver_a_jugar();
+
+        });
         // ---- Start
         grupoTest = new GrupoEnemigos(this)
 
@@ -215,7 +221,9 @@ timer_creacion_de_grupo_enemigo = function() {
             player.restar_vidas();
             ui.actualizar_vidas();
             if (player.vidas <= 0){
-                console.log('Game Over')
+                // console.log('Game Over')
+                ui.mostrar_game_over();
+                ui.cambiar_estado_game_over(true);
                 return
             }
 
@@ -228,6 +236,16 @@ timer_creacion_de_grupo_enemigo = function() {
     }
 
 }
+
+volver_a_jugar = function(){
+    player.volver_a_jugar();
+    ui.volver_a_jugar();
+    var timer = esta_escena.time.addEvent({
+    delay: 1000,                // ms
+    callback: creacion_de_grupo_enemigo,
+    });
+}
+
 
 escribir_letra = function (esto2) {
     for (let k = 0; k < 5; k++){

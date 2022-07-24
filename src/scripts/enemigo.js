@@ -4,7 +4,8 @@ let index = require('../index');
 
 let este
 // console.log(tablas.restablecer_tablas)
-var timer = 450
+var timer = 400
+// 450
 // 300
 var resta = 1
 
