@@ -1,9 +1,12 @@
+let listas = require('./listas');
+let index = require('../index');
+let esto
 export default class Ui
 
 {
     constructor (scene, puntos, vidas)
     {        
-
+        esto = this
         this.puntos = scene.add.text(640, 450, "puntos \n" + puntos, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
         this.vidas = scene.add.text(640, 525, "vidas \n ♥ ♥ ♥", {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
         // Start - restart - pausa
@@ -17,13 +20,31 @@ export default class Ui
         this.banderas_rect1 = scene.add.rectangle(-100, 0, 160, 114, 0xffffff)
         this.banderas_rect2 = scene.add.rectangle(100, 0, 160, 114, 0xffffff)
         this.bandera_eng = scene.add.image(-100,0, 'bandera_eng').setInteractive();
-
         this.bandera_eng.on('pointerover', function (event) {
-
-            this.setTexture('bandera_esp');
-
+            this.setTexture('bandera_eng_c');
         });
-        this.bandera_esp = scene.add.image(100,0, 'bandera_esp')
+        this.bandera_eng.on('pointerout', function (event) {
+            this.setTexture('bandera_eng');
+        });
+        this.bandera_eng.on('pointerdown', function (event) {
+            listas.elegir_idioma('eng')
+            esto.empezar_juego();
+            // console.log(listas.palabras)
+            // console.log('English')
+        });
+        this.bandera_esp = scene.add.image(100,0, 'bandera_esp').setInteractive();
+        this.bandera_esp.on('pointerover', function (event) {
+            this.setTexture('bandera_esp_c');
+        });
+        this.bandera_esp.on('pointerout', function (event) {
+            this.setTexture('bandera_esp');
+        });
+        this.bandera_esp.on('pointerdown', function (event) {
+            listas.elegir_idioma('esp')
+            esto.empezar_juego();
+            // console.log(listas.palabras)
+            // console.log('Español')
+        });
         this.banderas_container = scene.add.container(640, 360,[this.banderas_rect,this.banderas_rect1,this.banderas_rect2,this.bandera_eng,this.bandera_esp])
     }
     actualizar_puntos(puntos)
@@ -51,6 +72,12 @@ export default class Ui
             this.container.add(this.tapa_palabra);
         }
         // console.log(tablas.tabla_mask)
+    }
+    empezar_juego(){
+        this.bandera_eng.disableInteractive();
+        this.bandera_esp.disableInteractive();
+        this.banderas_container.destroy();
+        index.timer_creacion_de_grupo_enemigo();
     }
 
 }

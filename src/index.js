@@ -70,6 +70,8 @@ class MyGame extends Phaser.Scene
         this.load.image('palabra', 'src/assets/palabra.png');  
         this.load.image('bandera_eng', 'src/assets/bandera_eng.png');  
         this.load.image('bandera_esp', 'src/assets/bandera_esp.png');      
+        this.load.image('bandera_eng_c', 'src/assets/bandera_eng_c.png');  
+        this.load.image('bandera_esp_c', 'src/assets/bandera_esp_c.png'); 
 
         // sonidos
         this.load.audio('click', 'src/assets/click.ogg');

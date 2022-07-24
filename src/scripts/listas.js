@@ -1,9 +1,18 @@
 // export an array
 // export let palabrasTest = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 // 'conservas', 'recorrer', 'teatro', 'donde'];
-export let palabras
-
-palabras = ['para',
+export let palabras = []
+let palabras_eng
+let palabras_esp
+export let elegir_idioma = function (idioma) {
+	if (idioma === "esp"){
+		palabras = palabras_esp
+	}
+	else{
+		palabras = palabras_eng
+	}
+}
+palabras_esp = ['para',
 'como',
 'pero',
 'sobre',
@@ -196,7 +205,8 @@ palabras = ['para',
 'segundo',
 'director',
 'dicho',
-'cierto','casos',
+'cierto',
+'casos',
 'manos',
 'nivel',
 'familia',
@@ -342,7 +352,7 @@ palabras = ['para',
 'calidad',]
 
 
-let palabras_eng = [
+palabras_eng = [
 'ability',
 'able',
 'about',
