@@ -21,6 +21,7 @@ let click
 let del
 let ok
 let hit
+let volumen
 
 // vars
 let saloon
@@ -46,6 +47,8 @@ let limpiar_tablas
 export let creacion_de_grupo_enemigo
 export let timer_creacion_de_grupo_enemigo
 export let volver_a_jugar
+export let cambiar_volumen_sonido
+export let cambiar_volumen_musica
 
 let maskImage
 let bitmask1
@@ -74,7 +77,8 @@ class MyGame extends Phaser.Scene
         this.load.image('bandera_esp', 'src/assets/bandera_esp.png');      
         this.load.image('bandera_eng_c', 'src/assets/bandera_eng_c.png');  
         this.load.image('bandera_esp_c', 'src/assets/bandera_esp_c.png'); 
-
+        this.load.image('sonido', 'src/assets/sonido.png'); 
+        this.load.image('musica', 'src/assets/musica.png'); 
         // sonidos
         this.load.audio('click', 'src/assets/click.ogg');
         this.load.audio('del', 'src/assets/del.wav');
@@ -91,7 +95,7 @@ class MyGame extends Phaser.Scene
         player = new Player();
         ui = new Ui(this, player.puntos, player.vidas);
         // sonidos  - pasar a una class después.
-        let volumen = 0
+        volumen = 0
         click = this.sound.add('click', {volume: volumen});
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
@@ -295,6 +299,32 @@ palabra_completa = function(posEnArray) {
         // console.log(tablas.enemigos_en)
 
         ok.play();
+    }
+}
+
+cambiar_volumen_sonido = function() {
+    if (click.volume === 0){
+        click.volume = 0.25
+        del.volume = 0.25
+        hit.volume = 0.25
+        ok.volume = 0.25
+        ui.sonido.setAlpha(1)
+    }
+    else {
+        click.volume = 0
+        del.volume = 0
+        hit.volume = 0
+        ok.volume = 0
+        ui.sonido.setAlpha(0.45)
+    }
+}
+
+cambiar_volumen_musica = function() {
+    if (ui.musica.alpha === 0.45){
+        ui.musica.alpha = 1
+    }
+    else {
+        ui.musica.alpha = 0.45
     }
 }
 

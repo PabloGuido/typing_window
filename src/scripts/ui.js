@@ -58,6 +58,17 @@ export default class Ui
         this.game_over_text = scene.add.text(0, -10, 'Game over \n\n' + 'space to restart', {fontSize: '32px', fontStyle: 'bold', color: "#ffffff",  align: 'center' }).setOrigin(0.5,0.5)
         this.game_over_container = scene.add.container(640,360, [this.game_over_box, this.game_over_text])
         this.game_over_container.setVisible(false)
+        // Sonido y música
+        this.sonido = scene.add.image(40,40, 'sonido').setInteractive();
+        this.musica = scene.add.image(40,120, 'musica').setInteractive();
+        this.sonido.on('pointerdown', function (event) {
+            index.cambiar_volumen_sonido();
+            console.log('sonido on off')
+        })
+        this.musica.on('pointerdown', function (event) {
+            console.log('musica on off')
+            index.cambiar_volumen_musica();
+        })
     }   
     actualizar_puntos(puntos)
     {
