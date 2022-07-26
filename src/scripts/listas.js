@@ -1,16 +1,32 @@
 // export an array
 // export let palabrasTest = ["cacerola","auto","nave","abeja","estado","casino", "derecha","izquierda","camarote", "calle",'destino','mundo','helado',
 // 'conservas', 'recorrer', 'teatro', 'donde'];
+let index = require('../index');
+
 export let palabras = []
 let palabras_eng
 let palabras_esp
+export let puntos = "puntos \n"
+export let vidas = "vidas \n ♥ ♥ ♥"
+export let game_over = 'Game over \n\n' + 'barra to restart'
+
+
 export let elegir_idioma = function (idioma) {
 	if (idioma === "esp"){
 		palabras = palabras_esp
+		puntos = "puntos \n"
+		vidas = "vidas \n ♥ ♥ ♥"
+		game_over = 'Game over \n\n' + 'barra para\nvolver a jugar'
+
 	}
 	else{
 		palabras = palabras_eng
+		index.ui.puntos.text = 'test'
+		puntos = "score \n"
+		vidas = "lives \n ♥ ♥ ♥"
+		game_over = 'Game over \n\n' + 'space to restart'
 	}
+
 }
 palabras_esp = ['para',
 'como',
@@ -238,7 +254,6 @@ palabras_esp = ['para',
 'aquella',
 'programa',
 'palabras',
-'internacional',
 'esas',
 'segunda',
 'empresa',
@@ -250,8 +265,8 @@ palabras_esp = ['para',
 'ellas',
 'total',
 'creo',
-'tengo','dios',
-'condiciones',
+'tengo',
+'dios',
 'fuerza',
 'solo',
 'amor',
@@ -276,7 +291,8 @@ palabras_esp = ['para',
 'hijo',
 'ciento',
 'estoy',
-'hablar','minutos',
+'hablar',
+'minutos',
 'camino',
 'seis',
 'fondo',

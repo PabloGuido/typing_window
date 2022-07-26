@@ -27,7 +27,7 @@ let volumen
 // vars
 let saloon
 let player
-let ui
+export let ui
 let grupoTest 
 let esta_escena
 let numerados
@@ -97,14 +97,13 @@ class MyGame extends Phaser.Scene
         player = new Player();
         ui = new Ui(this, player.puntos, player.vidas);
         // sonidos  - pasar a una class después.
-        volumen = 0
+        volumen = 0.25
         click = this.sound.add('click', {volume: volumen});
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
         hit = this.sound.add('hit', {volume: volumen});
         musica = this.sound.add('ty_musica', {volume: 0.45, loop: -1});
         musica.play();
-        musica.mute = true;
         // keyboard input
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -146,7 +145,7 @@ class MyGame extends Phaser.Scene
                             }
                              else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
-                                if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i] && tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) != undefined){
+                                if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
                                     // Hacer un chequeo de undefined por si se llega a romper. Hay que seguir probando. Si tira error pero no pasa nada por ahí se deja así por el momento.
                                     enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                     // console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
@@ -174,7 +173,7 @@ class MyGame extends Phaser.Scene
         });// keyboar input end ---
         
         keyEsc.on('down', function (key, event) {        
-            console.log("Esc: pausa on/off.") 
+            // console.log("Esc: pausa on/off.") 
             // console.log(numero_de_letra)
         });
 

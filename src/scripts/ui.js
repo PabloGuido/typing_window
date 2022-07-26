@@ -7,9 +7,10 @@ export default class Ui
     constructor (scene, puntos, vidas)
     {        
         esto = this
-        this.puntos = scene.add.text(640, 450, "puntos \n" + puntos, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
-        this.vidas = scene.add.text(640, 525, "vidas \n ♥ ♥ ♥", {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
+        this.puntos = scene.add.text(640, 450, listas.puntos + puntos, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
+        this.vidas = scene.add.text(640, 525, listas.vidas, {fontSize: '32px', fontStyle: 'bold', color: "#000000",  align: 'center' }).setOrigin(0.5,0)
         this.game_over = false
+        this.puntitos = puntos
         // Start - restart - pausa
         this.start_rect = scene.add.rectangle(0, 0, 148*2, 148, 0x000000)
         this.container = scene.add.container(640, 360).setAlpha(0)
@@ -30,6 +31,7 @@ export default class Ui
         this.bandera_eng.on('pointerdown', function (event) {
             listas.elegir_idioma('eng')
             esto.empezar_juego(scene);
+            esto.cambiar_idioma();
             // console.log(listas.palabras)
             // console.log('English')
         });
@@ -43,12 +45,13 @@ export default class Ui
         this.bandera_esp.on('pointerdown', function (event) {
             listas.elegir_idioma('esp')
             esto.empezar_juego(scene);
+            esto.cambiar_idioma();
             // console.log(listas.palabras)
             // console.log('Español')
         });
         this.banderas_container = scene.add.container(640, 360,[this.banderas_rect,this.banderas_rect1,this.banderas_rect2,this.bandera_eng,this.bandera_esp])
         // Cuenta regresiva
-        this.cuenta_regresiva = scene.add.rectangle(0, 0, 148, 148, 0x000000)
+        this.cuenta_regresiva = scene.add.circle(0, 0, 72, 0x000000)
         this.cuenta_text = scene.add.text(0, 0, 3, {fontSize: '48px', fontStyle: 'bold', color: "#ffffff",  align: 'center' }).setOrigin(0.5,0.5)
         
         this.cuenta_container = scene.add.container(640, 360,[this.cuenta_regresiva, this.cuenta_text])
@@ -59,20 +62,20 @@ export default class Ui
         this.game_over_container = scene.add.container(640,360, [this.game_over_box, this.game_over_text])
         this.game_over_container.setVisible(false)
         // Sonido y música
-        this.sonido = scene.add.image(40,40, 'sonido').setInteractive();
-        this.musica = scene.add.image(40,120, 'musica').setInteractive();
+        this.sonido = scene.add.image(40,40+38, 'sonido').setInteractive();
+        this.musica = scene.add.image(40,120+38, 'musica').setInteractive();
         this.sonido.on('pointerdown', function (event) {
             index.cambiar_volumen_sonido();
-            console.log('sonido on off')
+            // console.log('sonido on off')
         })
         this.musica.on('pointerdown', function (event) {
-            console.log('musica on off')
+            // console.log('musica on off')
             index.cambiar_volumen_musica();
         })
     }   
     actualizar_puntos(puntos)
     {
-        this.puntos.text = "puntos \n" + puntos
+        this.puntos.text = listas.puntos + puntos
     }
     actualizar_vidas()
     {
@@ -121,10 +124,16 @@ export default class Ui
     volver_a_jugar(){
         if (this.game_over === true){
             this.game_over = false;
-            this.vidas.text = "vidas \n ♥ ♥ ♥"
-            this.puntos.text = "puntos \n0"
+            this.vidas.text = listas.vidas
+            this.puntos.text = listas.puntos + '0'
             this.game_over_container.setVisible(false)
         }
     }
+    cambiar_idioma(){
+        this.puntos.text = listas.puntos + this.puntitos
+        this.vidas.text = listas.vidas
+        this.game_over_text.text = listas.game_over
+    }
+
 
 }
