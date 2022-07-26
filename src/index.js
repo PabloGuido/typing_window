@@ -21,6 +21,7 @@ let click
 let del
 let ok
 let hit
+let musica
 let volumen
 
 // vars
@@ -84,6 +85,7 @@ class MyGame extends Phaser.Scene
         this.load.audio('del', 'src/assets/del.wav');
         this.load.audio('ok', 'src/assets/ok.ogg');
         this.load.audio('hit', 'src/assets/hit.wav');
+        this.load.audio('ty_musica', 'src/assets/ty_musica.ogg');
     }
       
     create ()
@@ -100,7 +102,9 @@ class MyGame extends Phaser.Scene
         del = this.sound.add('del', {volume: volumen});
         ok = this.sound.add('ok', {volume: volumen});
         hit = this.sound.add('hit', {volume: volumen});
-
+        musica = this.sound.add('ty_musica', {volume: 0.45, loop: -1});
+        musica.play();
+        musica.mute = true;
         // keyboard input
         keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         keyDel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -142,7 +146,7 @@ class MyGame extends Phaser.Scene
                             }
                              else{
                                 // Colorea la/s palabras que se están escribiendo y suma 1 al número de letra de la palabra que se está escribiendo.
-                                if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i]){
+                                if (numerados === true &&  palabra_actual === tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) && tablas.palabras_numeradas[0] === tablas.palabras_a_escribir[i] && tablas.palabras_numeradas[0].charAt(numero_de_letra[i]) != undefined){
                                     // Hacer un chequeo de undefined por si se llega a romper. Hay que seguir probando. Si tira error pero no pasa nada por ahí se deja así por el momento.
                                     enemigos_en[i].textColor.text = enemigos_en[i].textColor.text + palabras_a_escribir[i].charAt(numero_de_letra[i]);
                                     // console.log(tablas.palabras_numeradas[0].charAt(numero_de_letra[i]))
@@ -320,13 +324,17 @@ cambiar_volumen_sonido = function() {
 }
 
 cambiar_volumen_musica = function() {
-    if (ui.musica.alpha === 0.45){
+    if (musica.mute === true){
+        musica.mute = false
         ui.musica.alpha = 1
     }
     else {
+        musica.mute = true
         ui.musica.alpha = 0.45
     }
 }
+
+
 
 const config = {
     type: Phaser.AUTO,
