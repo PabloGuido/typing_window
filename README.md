@@ -1,4 +1,5 @@
-► Typing Window ◄
+< Typing Window >
+
 
 # Phaser 3 Webpack Project Template
 
